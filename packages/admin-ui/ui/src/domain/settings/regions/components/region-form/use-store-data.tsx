@@ -1,5 +1,4 @@
-import { FulfillmentProvider, PaymentProvider, Store } from "@medusajs/medusa"
-import { useAdminStore } from "medusa-react"
+import { useAdminStore } from "@medusajs/client-react"
 import { useMemo } from "react"
 import { countries } from "../../../../../utils/countries"
 import fulfillmentProvidersMapper from "../../../../../utils/fulfillment-providers.mapper"
@@ -8,17 +7,16 @@ import paymentProvidersMapper from "../../../../../utils/payment-providers-mappe
 export const useStoreData = () => {
   const { store, isLoading } = useAdminStore()
 
-  const { fulfillment_providers, payment_providers } = store as Store & {
-    fulfillment_providers: FulfillmentProvider[]
-    payment_providers: PaymentProvider[]
-  }
+  const { fulfillment_providers, payment_providers } = store || {}
 
   const paymentProviderOptions = useMemo(() => {
     if (isLoading) {
       return []
     }
 
-    return payment_providers?.map((p) => paymentProvidersMapper(p.id)) || []
+    return (
+      (payment_providers || []).map((p) => paymentProvidersMapper(p.id)) || []
+    )
   }, [payment_providers, isLoading])
 
   const fulfillmentProviderOptions = useMemo(() => {

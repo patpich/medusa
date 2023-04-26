@@ -1,4 +1,9 @@
-import { Discount } from "@medusajs/medusa"
+import {
+  Discount,
+  DiscountRule,
+  Merge,
+  SetRelation,
+} from "@medusajs/client-types"
 import React, { useState } from "react"
 import PlusIcon from "../../../../components/fundamentals/icons/plus-icon"
 import NumberedItem from "../../../../components/molecules/numbered-item"
@@ -8,8 +13,15 @@ import { ConditionsProvider } from "./add-condition/conditions-provider"
 import EditConditionsModal from "./edit-condition/edit-condition-modal"
 import { useDiscountConditions } from "./use-discount-conditions"
 
+type DiscountWithRelations = Merge<
+  SetRelation<Discount, "rule">,
+  {
+    rule: SetRelation<DiscountRule, "conditions">
+  }
+>
+
 type DiscountDetailsConditionsProps = {
-  discount: Discount
+  discount: DiscountWithRelations
 }
 
 const DiscountDetailsConditions: React.FC<DiscountDetailsConditionsProps> = ({

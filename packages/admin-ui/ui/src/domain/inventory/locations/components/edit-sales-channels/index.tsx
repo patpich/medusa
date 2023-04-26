@@ -1,9 +1,8 @@
-import { SalesChannel } from "@medusajs/medusa"
-import { StockLocationExpandedDTO } from "@medusajs/types"
+import { SalesChannel, StockLocationExpandedDTO } from "@medusajs/client-types"
 import {
   useAdminAddLocationToSalesChannel,
-  useAdminRemoveLocationFromSalesChannel
-} from "medusa-react"
+  useAdminRemoveLocationFromSalesChannel,
+} from "@medusajs/client-react"
 import SalesChannelsModal from "../../../../../components/forms/product/sales-channels-modal"
 import Button from "../../../../../components/fundamentals/button"
 import useToggleState from "../../../../../hooks/use-toggle-state"

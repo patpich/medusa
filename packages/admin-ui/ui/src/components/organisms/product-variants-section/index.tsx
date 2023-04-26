@@ -1,44 +1,58 @@
-import OptionsProvider, { useOptionsContext } from "./options-provider"
-import { Product, ProductVariant, VariantInventory } from "@medusajs/medusa"
+import { adminInventoryItemKeys, useMedusaAdmin } from "@medusajs/client-react"
+import {
+  Merge,
+  Product,
+  ProductVariant,
+  SetRelation,
+  VariantInventory,
+} from "@medusajs/client-types"
+import { useQueryClient } from "@tanstack/react-query"
+import { useState } from "react"
+import useEditProductActions from "../../../hooks/use-edit-product-actions"
+import useToggleState from "../../../hooks/use-toggle-state"
+import { useFeatureFlag } from "../../../providers/feature-flag-provider"
+import EditIcon from "../../fundamentals/icons/edit-icon"
+import GearIcon from "../../fundamentals/icons/gear-icon"
+import PlusIcon from "../../fundamentals/icons/plus-icon"
 
 import { ActionType } from "../../molecules/actionables"
+import Section from "../../organisms/section"
 import AddVariantModal from "./add-variant-modal"
-import EditIcon from "../../fundamentals/icons/edit-icon"
 import EditVariantInventoryModal from "./edit-variant-inventory-modal"
 import EditVariantModal from "./edit-variant-modal"
 import EditVariantsModal from "./edit-variants-modal"
-import GearIcon from "../../fundamentals/icons/gear-icon"
 import OptionsModal from "./options-modal"
-import PlusIcon from "../../fundamentals/icons/plus-icon"
-import Section from "../../organisms/section"
+import OptionsProvider, { useOptionsContext } from "./options-provider"
 import VariantsTable from "./table"
-import useEditProductActions from "../../../hooks/use-edit-product-actions"
-import { useFeatureFlag } from "../../../providers/feature-flag-provider"
-import { adminInventoryItemsKeys, useMedusa } from "medusa-react"
-import { useQueryClient } from "@tanstack/react-query"
-import { useState } from "react"
-import useToggleState from "../../../hooks/use-toggle-state"
+
+type ProductWithRelations = Merge<
+  SetRelation<Product, "variants" | "options">,
+  {
+    variants: SetRelation<ProductVariant, "options" | "prices">[]
+  }
+>
+type ProductVariantWithRelations = ProductWithRelations["variants"][0]
 
 type Props = {
-  product: Product
+  product: ProductWithRelations
 }
 
 const ProductVariantsSection = ({ product }: Props) => {
   const queryClient = useQueryClient()
-  const { client } = useMedusa()
+  const { client } = useMedusaAdmin()
 
   const { isFeatureEnabled } = useFeatureFlag()
 
   const [variantToEdit, setVariantToEdit] = useState<
     | {
-        base: ProductVariant
+        base: ProductVariantWithRelations
         isDuplicate: boolean
       }
     | undefined
   >(undefined)
 
   const [variantInventoryToEdit, setVariantInventoryToEdit] = useState<
-    { base: ProductVariant } | undefined
+    { base: ProductVariantWithRelations } | undefined
   >(undefined)
 
   const {
@@ -82,7 +96,7 @@ const ProductVariantsSection = ({ product }: Props) => {
   const handleDeleteVariant = async (variantId: string) => {
     let variantInventory: VariantInventory | undefined
     if (isFeatureEnabled("inventoryService")) {
-      const { variant } = await client.admin.variants.getInventory(variantId)
+      const { variant } = await client.variants.getInventory(variantId)
       variantInventory = variant
     }
     onDeleteVariant(variantId, async () => {
@@ -90,24 +104,22 @@ const ProductVariantsSection = ({ product }: Props) => {
         isFeatureEnabled("inventoryService") &&
         variantInventory?.inventory[0]?.id
       ) {
-        await client.admin.inventoryItems.delete(
-          variantInventory.inventory[0].id
-        )
-        queryClient.invalidateQueries(adminInventoryItemsKeys.lists())
+        await client.inventoryItems.delete(variantInventory.inventory[0].id)
+        queryClient.invalidateQueries(adminInventoryItemKeys.lists())
       }
     })
   }
 
-  const handleEditVariant = (variant: ProductVariant) => {
+  const handleEditVariant = (variant: ProductVariantWithRelations) => {
     setVariantToEdit({ base: variant, isDuplicate: false })
   }
 
-  const handleDuplicateVariant = (variant: ProductVariant) => {
+  const handleDuplicateVariant = (variant: ProductVariantWithRelations) => {
     // @ts-ignore
     setVariantToEdit({ base: { ...variant, options: [] }, isDuplicate: true })
   }
 
-  const handleEditVariantInventory = (variant: ProductVariant) => {
+  const handleEditVariantInventory = (variant: ProductVariantWithRelations) => {
     setVariantInventoryToEdit({ base: variant })
   }
 

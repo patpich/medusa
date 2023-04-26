@@ -1,4 +1,4 @@
-import { Product, ProductVariant } from "@medusajs/medusa"
+import { Product, ProductVariant } from "@medusajs/client-types"
 import React from "react"
 import { ActionType } from "../../molecules/actionables"
 import { CollapsibleTree } from "../../molecules/collapsible-tree"
@@ -6,7 +6,7 @@ import { CollapsibleTree } from "../../molecules/collapsible-tree"
 type LeafProps = {
   id: string
   title: string
-  sku?: string
+  sku?: string | null
   prices: {
     id: string
     currency_code: string

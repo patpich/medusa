@@ -1,4 +1,4 @@
-import { CustomerGroup } from "@medusajs/medusa"
+import { CustomerGroup } from "@medusajs/client-types"
 import { difference } from "lodash"
 import {
   useAdminAddCustomersToCustomerGroup,
@@ -6,7 +6,7 @@ import {
   useAdminCustomerGroupCustomers,
   useAdminDeleteCustomerGroup,
   useAdminRemoveCustomersFromCustomerGroup,
-} from "medusa-react"
+} from "@medusajs/client-react"
 import { useEffect, useState } from "react"
 
 import { useNavigate, useParams } from "react-router-dom"

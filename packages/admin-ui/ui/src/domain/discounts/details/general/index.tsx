@@ -1,5 +1,8 @@
-import { Discount } from "@medusajs/medusa"
-import { useAdminDeleteDiscount, useAdminUpdateDiscount } from "medusa-react"
+import { Discount, SetRelation } from "@medusajs/client-types"
+import {
+  useAdminDeleteDiscount,
+  useAdminUpdateDiscount,
+} from "@medusajs/client-react"
 import React from "react"
 import { useNavigate } from "react-router-dom"
 import Badge from "../../../../components/fundamentals/badge"
@@ -15,8 +18,10 @@ import { getErrorMessage } from "../../../../utils/error-messages"
 import { formatAmountWithSymbol } from "../../../../utils/prices"
 import EditGeneral from "./edit-general"
 
+type DiscountWithRelations = SetRelation<Discount, "rule" | "regions">
+
 type GeneralProps = {
-  discount: Discount
+  discount: DiscountWithRelations
 }
 
 const General: React.FC<GeneralProps> = ({ discount }) => {
@@ -86,7 +91,7 @@ const General: React.FC<GeneralProps> = ({ discount }) => {
       <BodyCard
         actionables={actionables}
         title={discount.code}
-        subtitle={discount.rule.description}
+        subtitle={discount.rule.description || undefined}
         forceDropdown
         className="min-h-[200px]"
         status={
@@ -140,7 +145,7 @@ const General: React.FC<GeneralProps> = ({ discount }) => {
   )
 }
 
-const getPromotionDescription = (discount: Discount) => {
+const getPromotionDescription = (discount: DiscountWithRelations) => {
   switch (discount.rule.type) {
     case "fixed":
       return (

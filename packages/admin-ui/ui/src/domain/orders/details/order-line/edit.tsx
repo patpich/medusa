@@ -1,11 +1,15 @@
 import React from "react"
-import { LineItem, OrderItemChange, ProductVariant } from "@medusajs/medusa"
+import {
+  LineItem,
+  OrderItemChange,
+  ProductVariant,
+} from "@medusajs/client-types"
 import {
   useAdminDeleteOrderEditItemChange,
   useAdminOrderEditAddLineItem,
   useAdminOrderEditDeleteLineItem,
   useAdminOrderEditUpdateLineItem,
-} from "medusa-react"
+} from "@medusajs/client-react"
 import clsx from "clsx"
 
 import ImagePlaceholder from "../../../../components/fundamentals/image-placeholder"
@@ -51,18 +55,15 @@ const OrderEditLine = ({
   )
 
   const { mutateAsync: removeItem } = useAdminOrderEditDeleteLineItem(
-    item.order_edit_id!,
-    item.id
+    item.order_edit_id!
   )
 
   const { mutateAsync: updateItem } = useAdminOrderEditUpdateLineItem(
-    item.order_edit_id!,
-    item.id
+    item.order_edit_id!
   )
 
   const { mutateAsync: undoChange } = useAdminDeleteOrderEditItemChange(
-    item.order_edit_id!,
-    change?.id as string
+    item.order_edit_id!
   )
 
   const onQuantityUpdate = async (newQuantity: number) => {
@@ -72,7 +73,7 @@ const OrderEditLine = ({
 
     isLoading = true
     try {
-      await updateItem({ quantity: newQuantity })
+      await updateItem({ item_id: item.id, quantity: newQuantity })
     } finally {
       isLoading = false
     }
@@ -90,7 +91,7 @@ const OrderEditLine = ({
 
     try {
       await addLineItem({
-        variant_id: item.variant_id,
+        variant_id: item.variant_id!,
         quantity: item.quantity,
       })
     } catch (e) {
@@ -102,14 +103,14 @@ const OrderEditLine = ({
     try {
       if (change) {
         if (change.type === "item_add") {
-          await undoChange()
+          await undoChange({ change_id: change?.id })
         }
         if (change.type === "item_update") {
-          await undoChange()
-          await removeItem()
+          await undoChange({ change_id: change?.id })
+          await removeItem({ item_id: item.id })
         }
       } else {
-        await removeItem()
+        await removeItem({ item_id: item.id })
       }
       notification("Success", "Item removed", "success")
     } catch (e) {

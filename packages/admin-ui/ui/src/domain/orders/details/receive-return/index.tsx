@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import {
   AdminGetVariantsVariantInventoryRes,
   AdminPostReturnsReturnReceiveReq,
@@ -7,9 +7,12 @@ import {
   Order,
   Return,
   StockLocationDTO,
-} from "@medusajs/medusa"
-import { useAdminOrder, useAdminReceiveReturn, useMedusa } from "medusa-react"
-import { useEffect, useMemo } from "react"
+} from "@medusajs/client-types"
+import {
+  useAdminOrder,
+  useAdminReceiveReturn,
+  useAdminStockLocations,
+} from "@medusajs/client-react"
 import { useForm, useWatch } from "react-hook-form"
 import Button from "../../../../components/fundamentals/button"
 import Modal from "../../../../components/molecules/modal"
@@ -23,7 +26,6 @@ import { RefundAmountFormType } from "../../components/refund-amount-form"
 import { ReceiveReturnSummary } from "../../components/rma-summaries/receive-return-summary"
 import { getDefaultReceiveReturnValues } from "../utils/get-default-values"
 import useOrdersExpandParam from "../utils/use-admin-expand-paramter"
-import { useAdminStockLocations } from "medusa-react"
 import Select from "../../../../components/molecules/select/next-select/select"
 import Spinner from "../../../../components/atoms/spinner"
 
@@ -39,7 +41,7 @@ export type ReceiveReturnFormType = {
 }
 
 export const ReceiveReturnMenu = ({ order, returnRequest, onClose }: Props) => {
-  const { client } = useMedusa()
+  const { client } = useMedusaAdmin()
   const { isFeatureEnabled } = useFeatureFlag()
   const isLocationFulfillmentEnabled =
     isFeatureEnabled("inventoryService") &&
@@ -104,7 +106,7 @@ export const ReceiveReturnMenu = ({ order, returnRequest, onClose }: Props) => {
           if (!orderItem?.variant_id) {
             return undefined
           }
-          return await client.admin.variants.getInventory(orderItem.variant_id)
+          return await client.variants.getInventory(orderItem.variant_id)
         })
       )
 
@@ -122,7 +124,7 @@ export const ReceiveReturnMenu = ({ order, returnRequest, onClose }: Props) => {
       setInventoryMap(map)
     })
   }, [
-    client.admin.variants,
+    client.variants,
     isLocationFulfillmentEnabled,
     itemMap,
     returnRequest.items,

@@ -1,5 +1,5 @@
-import { Customer } from "@medusajs/medusa"
-import { useAdminUpdateCustomer } from "medusa-react"
+import { Customer } from "@medusajs/client-types"
+import { useAdminUpdateCustomer } from "@medusajs/client-react"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import MetadataForm, {
@@ -156,9 +156,9 @@ const EditCustomerModal = ({
 
 const getDefaultValues = (customer: Customer): EditCustomerFormType => {
   return {
-    first_name: customer.first_name,
+    first_name: customer.first_name || "",
     email: customer.email,
-    last_name: customer.last_name,
+    last_name: customer.last_name || "",
     phone: customer.phone,
     metadata: getMetadataFormValues(customer.metadata),
   }

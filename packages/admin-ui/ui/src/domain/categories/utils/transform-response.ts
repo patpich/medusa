@@ -1,4 +1,4 @@
-import { ProductCategory } from "@medusajs/medusa"
+import { ProductCategory } from "@medusajs/client-types"
 
 import { NestedMultiselectOption } from "../components/multiselect"
 

@@ -2,10 +2,11 @@ import {
   AdminGetVariantsVariantInventoryRes,
   AdminPostOrdersOrderReturnsReq,
   InventoryLevelDTO,
-  Order,
   LineItem as RawLineItem,
+  Order,
+  SetRelation,
   StockLocationDTO,
-} from "@medusajs/medusa"
+} from "@medusajs/client-types"
 import LayeredModal, {
   LayeredModalContext,
 } from "../../../../components/molecules/modal/layered-modal"
@@ -14,8 +15,8 @@ import {
   useAdminRequestReturn,
   useAdminShippingOptions,
   useAdminStockLocations,
-  useMedusa,
-} from "medusa-react"
+  useMedusaAdmin,
+} from "@medusajs/client-react"
 
 import Button from "../../../../components/fundamentals/button"
 import CheckIcon from "../../../../components/fundamentals/icons/check-icon"
@@ -36,15 +37,17 @@ import { removeNullish } from "../../../../utils/remove-nullish"
 import { useFeatureFlag } from "../../../../providers/feature-flag-provider"
 import useNotification from "../../../../hooks/use-notification"
 
+type OrderWithRelations = SetRelation<Order, "items">
+
 type ReturnMenuProps = {
-  order: Order
+  order: OrderWithRelations
   onDismiss: () => void
 }
 
-type LineItem = Omit<RawLineItem, "beforeInsert">
+type LineItem = RawLineItem
 
 const ReturnMenu: React.FC<ReturnMenuProps> = ({ order, onDismiss }) => {
-  const { client } = useMedusa()
+  const { client } = useMedusaAdmin()
   const layeredModalContext = useContext(LayeredModalContext)
   const { isFeatureEnabled } = useFeatureFlag()
   const isLocationFulfillmentEnabled =
@@ -68,7 +71,7 @@ const ReturnMenu: React.FC<ReturnMenuProps> = ({ order, onDismiss }) => {
   const [shippingPrice, setShippingPrice] = useState<number>()
   const [shippingMethod, setShippingMethod] = useState<Option | null>(null)
 
-  const [allItems, setAllItems] = useState<Omit<LineItem, "beforeInsert">[]>([])
+  const [allItems, setAllItems] = useState<LineItem[]>([])
 
   const notification = useNotification()
 
@@ -111,7 +114,7 @@ const ReturnMenu: React.FC<ReturnMenuProps> = ({ order, onDismiss }) => {
           if (!item.variant_id) {
             return undefined
           }
-          return await client.admin.variants.getInventory(item.variant_id)
+          return await client.variants.getInventory(item.variant_id)
         })
       )
 
@@ -128,7 +131,7 @@ const ReturnMenu: React.FC<ReturnMenuProps> = ({ order, onDismiss }) => {
     getInventoryMap().then((map) => {
       setInventoryMap(map)
     })
-  }, [allItems, client.admin.variants, isLocationFulfillmentEnabled])
+  }, [allItems, client.variants, isLocationFulfillmentEnabled])
 
   const locationsHasInventoryLevels = React.useMemo(() => {
     return Object.entries(toReturn)

@@ -1,6 +1,5 @@
-import { Country } from "@medusajs/medusa"
-import { StockLocationAddressDTO } from "@medusajs/types"
-import { useAdminRegions } from "medusa-react"
+import { Country, StockLocationAddressDTO } from "@medusajs/client-types"
+import { useAdminRegions } from "@medusajs/client-react"
 import { useEffect, useMemo, useState } from "react"
 import { Controller, useWatch } from "react-hook-form"
 import InputField from "../../../../../components/molecules/input"

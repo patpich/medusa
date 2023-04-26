@@ -15,7 +15,8 @@
     "resolveJsonModule": true,
     "isolatedModules": false,
     "jsx": "react-jsx",
-    "outDir": "../../build"
+    "outDir": "../../build",
+    "noImplicitAny": false
   },
   "include": ["./**/*", "postcss.config.js"]
 }

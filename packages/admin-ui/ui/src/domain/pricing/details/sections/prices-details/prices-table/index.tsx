@@ -1,8 +1,13 @@
-import { Product } from "@medusajs/medusa"
+import {
+  Merge,
+  Product,
+  ProductVariant,
+  SetRelation,
+} from "@medusajs/client-types"
 import {
   useAdminDeletePriceListProductPrices,
   useAdminPriceListProducts,
-} from "medusa-react"
+} from "@medusajs/client-react"
 import { HeaderGroup, Row } from "react-table"
 import CancelIcon from "../../../../../../components/fundamentals/icons/cancel-icon"
 import EditIcon from "../../../../../../components/fundamentals/icons/edit-icon"
@@ -13,6 +18,11 @@ import useQueryFilters from "../../../../../../hooks/use-query-filters"
 import { getErrorMessage } from "../../../../../../utils/error-messages"
 import usePricesColumns from "./use-columns"
 
+type ProductWithRelations = Merge<
+  SetRelation<Product, "variants">,
+  { variants: SetRelation<ProductVariant, "prices">[] }
+>
+
 const DEFAULT_PAGE_SIZE = 9
 const defaultQueryProps = {
   offset: 0,
@@ -21,7 +31,7 @@ const defaultQueryProps = {
 
 type PricesTableProps = {
   id: string
-  selectProduct: (product: Product) => void
+  selectProduct: (product: ProductWithRelations) => void
 }
 
 const PricesTable = ({ id, selectProduct }: PricesTableProps) => {
@@ -98,10 +108,7 @@ const PricesTableRow = ({
   ...props
 }) => {
   const notification = useNotification()
-  const deleteProductPrices = useAdminDeletePriceListProductPrices(
-    priceListId,
-    product.id
-  )
+  const deleteProductPrices = useAdminDeletePriceListProductPrices(priceListId)
 
   const actions = [
     {
@@ -114,17 +121,20 @@ const PricesTableRow = ({
       icon: <CancelIcon size={20} />,
       variant: "danger" as const,
       onClick: () => {
-        deleteProductPrices.mutate(undefined, {
-          onSuccess: () => {
-            notification(
-              "Success",
-              `Deleted prices of product: ${product.title}`,
-              "success"
-            )
-          },
-          onError: (err) =>
-            notification("Error", getErrorMessage(err), "error"),
-        })
+        deleteProductPrices.mutate(
+          { product_id: product.id },
+          {
+            onSuccess: () => {
+              notification(
+                "Success",
+                `Deleted prices of product: ${product.title}`,
+                "success"
+              )
+            },
+            onError: (err) =>
+              notification("Error", getErrorMessage(err), "error"),
+          }
+        )
       },
     },
   ]

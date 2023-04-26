@@ -1,11 +1,13 @@
-import { Product } from "@medusajs/medusa"
+import { Product, SetRelation } from "@medusajs/client-types"
 import clsx from "clsx"
 import { Column, HeaderGroup, Row } from "react-table"
 import ImagePlaceholder from "../../fundamentals/image-placeholder"
 import Table from "../../molecules/table"
 import { decideStatus } from "../collection-product-table/utils"
 
-export const columns: Column<Product>[] = [
+type ProductWithRelations = SetRelation<Product, "variants">
+
+export const columns: Column<ProductWithRelations>[] = [
   {
     Header: <div className="pl-4">Product Details</div>,
     accessor: "title",

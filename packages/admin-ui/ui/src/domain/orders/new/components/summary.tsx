@@ -2,7 +2,7 @@ import clsx from "clsx"
 import {
   useAdminGetDiscountByCode,
   useAdminShippingOptions,
-} from "medusa-react"
+} from "@medusajs/client-react"
 import { useContext, useEffect, useMemo, useState } from "react"
 import { useWatch } from "react-hook-form"
 import Avatar from "../../../../components/atoms/avatar"
@@ -66,6 +66,7 @@ const Summary = () => {
 
   const { discount, status, isFetching } = useAdminGetDiscountByCode(
     discountCode!,
+    {},
     {
       enabled: !!discountCode,
     }

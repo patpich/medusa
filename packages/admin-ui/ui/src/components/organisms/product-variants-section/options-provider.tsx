@@ -1,5 +1,5 @@
-import { Product, ProductOption } from "@medusajs/medusa"
-import { useAdminProducts } from "medusa-react"
+import { Product, ProductOption } from "@medusajs/client-types"
+import { useAdminProducts } from "@medusajs/client-react"
 import React, { createContext, useContext, useMemo } from "react"
 
 type OptionsContext = {

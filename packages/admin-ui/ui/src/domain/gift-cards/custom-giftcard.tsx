@@ -1,4 +1,4 @@
-import { useAdminCreateGiftCard } from "medusa-react"
+import { useAdminCreateGiftCard } from "@medusajs/client-react"
 import React, { useEffect } from "react"
 import { useForm, useWatch } from "react-hook-form"
 import GiftCardBalanceForm, {
@@ -61,7 +61,7 @@ const CustomGiftcard: React.FC<CustomGiftcardProps> = ({ onClose, open }) => {
       {
         region_id: data.region.region_id.value,
         value: data.balance.amount,
-        ends_at: data.ends_at.ends_at || undefined,
+        ends_at: data.ends_at.ends_at?.toISOString() || undefined,
         metadata: {
           email: data.receiver.email,
           personal_message: data.receiver.message,

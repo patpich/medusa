@@ -1,5 +1,10 @@
-import { Product } from "@medusajs/medusa"
-import { useAdminProducts } from "medusa-react"
+import {
+  Merge,
+  Product,
+  ProductVariant,
+  SetRelation,
+} from "@medusajs/client-types"
+import { useAdminProducts } from "@medusajs/client-react"
 import * as React from "react"
 import Button from "../../fundamentals/button"
 import Modal from "../../molecules/modal"
@@ -8,6 +13,11 @@ import useQueryFilters from "../../../hooks/use-query-filters"
 import { columns, ProductHeader, ProductRow } from "./product-table-config"
 import { mapIdsToItems } from "./utils"
 
+type ProductWithRelations = Merge<
+  SetRelation<Product, "variants">,
+  { variants: SetRelation<ProductVariant, "prices">[] }
+>
+
 const defaultQueryProps = {
   limit: 12,
   offset: 0,
@@ -15,8 +25,8 @@ const defaultQueryProps = {
 
 export type AddProductsModalProps = {
   close: () => void
-  initialSelection: Product[]
-  onSave: (items: Product[]) => void
+  initialSelection: ProductWithRelations[]
+  onSave: (items: ProductWithRelations[]) => void
 }
 
 const AddProductsModal = ({

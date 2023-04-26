@@ -1,5 +1,8 @@
-import { Customer } from "@medusajs/medusa"
-import { useAdminCustomerGroups, useAdminCustomers } from "medusa-react"
+import { Customer, CustomerGroup, SetRelation } from "@medusajs/client-types"
+import {
+  useAdminCustomerGroups,
+  useAdminCustomers,
+} from "@medusajs/client-react"
 import { useEffect, useState } from "react"
 import {
   HeaderGroup,
@@ -83,14 +86,21 @@ function EditCustomersTable(props: EditCustomersTableProps) {
   const [numPages, setNumPages] = useState(0)
   const [activeGroupId, setActiveGroupId] = useState()
 
-  const { customer_groups } = useAdminCustomerGroups({ expand: "customers" })
+  const { customer_groups: rawCustomerGroup } = useAdminCustomerGroups({
+    expand: "customers",
+  })
+  const customer_groups = rawCustomerGroup as SetRelation<
+    CustomerGroup,
+    "customers"
+  >[]
+
   const {
     customers = [],
     count = 0,
     isLoading,
   } = useAdminCustomers({
     ...queryObject,
-    groups: activeGroupId ? [activeGroupId] : null,
+    groups: activeGroupId ? [activeGroupId] : undefined,
   })
 
   useEffect(() => {

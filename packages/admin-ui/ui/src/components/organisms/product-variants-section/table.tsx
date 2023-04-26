@@ -1,6 +1,6 @@
 import { Column, useTable } from "react-table"
 
-import { ProductVariant } from "@medusajs/medusa"
+import { ProductVariant, SetRelation } from "@medusajs/client-types"
 import { useMemo, useState } from "react"
 import { useFeatureFlag } from "../../../providers/feature-flag-provider"
 import BuildingsIcon from "../../fundamentals/icons/buildings-icon"
@@ -11,13 +11,18 @@ import Actionables from "../../molecules/actionables"
 import Table from "../../molecules/table"
 import DeletePrompt from "../delete-prompt"
 
+type ProductVariantWithRelations = SetRelation<
+  ProductVariant,
+  "options" | "prices"
+>
+
 type Props = {
   variants: ProductVariant[]
   actions: {
     deleteVariant: (variantId: string) => void
-    duplicateVariant: (variant: ProductVariant) => void
-    updateVariant: (variant: ProductVariant) => void
-    updateVariantInventory: (variant: ProductVariant) => void
+    duplicateVariant: (variant: ProductVariantWithRelations) => void
+    updateVariant: (variant: ProductVariantWithRelations) => void
+    updateVariantInventory: (variant: ProductVariantWithRelations) => void
   }
 }
 
@@ -106,7 +111,7 @@ const VariantsTable = ({ variants, actions }: Props) => {
     updateVariantInventory,
   } = actions
 
-  const getTableRowActionables = (variant: ProductVariant) => {
+  const getTableRowActionables = (variant: ProductVariantWithRelations) => {
     const inventoryManagementActions = []
     if (hasInventoryService) {
       inventoryManagementActions.push({

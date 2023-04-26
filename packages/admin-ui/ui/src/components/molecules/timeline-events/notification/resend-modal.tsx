@@ -1,4 +1,4 @@
-import { useAdminResendNotification } from "medusa-react"
+import { useAdminResendNotification } from "@medusajs/client-react"
 import React from "react"
 import { useForm } from "react-hook-form"
 import Button from "../../../../components/fundamentals/button"
@@ -18,7 +18,7 @@ const ResendModal: React.FC<ResendModalProps> = ({
   email,
   handleCancel,
 }) => {
-  const { mutate, isLoading } = useAdminResendNotification(notificationId)
+  const { mutate, isLoading } = useAdminResendNotification(notificationId, {})
 
   const { register, handleSubmit } = useForm({
     defaultValues: { to: email },

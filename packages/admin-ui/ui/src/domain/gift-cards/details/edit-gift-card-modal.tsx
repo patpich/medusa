@@ -1,5 +1,5 @@
-import { GiftCard } from "@medusajs/medusa"
-import { useAdminUpdateGiftCard } from "medusa-react"
+import { GiftCard, SetRelation } from "@medusajs/client-types"
+import { useAdminUpdateGiftCard } from "@medusajs/client-react"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import GiftCardEndsAtForm, {
@@ -14,10 +14,12 @@ import useNotification from "../../../hooks/use-notification"
 import { getErrorMessage } from "../../../utils/error-messages"
 import { nestedForm } from "../../../utils/nested-form"
 
+type GiftCardWithRelations = SetRelation<GiftCard, "region">
+
 type EditGiftCardModalProps = {
   onClose: () => void
   open: boolean
-  giftCard: GiftCard
+  giftCard: GiftCardWithRelations
 }
 
 type EditGiftCardFormType = {
@@ -47,7 +49,7 @@ const EditGiftCardModal = ({
     mutate(
       {
         region_id: data.region.region_id.value,
-        ends_at: data.ends_at.ends_at,
+        ends_at: data.ends_at.ends_at?.toISOString(),
       },
       {
         onSuccess: () => {
@@ -119,7 +121,9 @@ const EditGiftCardModal = ({
   )
 }
 
-const getDefaultValues = (giftCard: GiftCard): EditGiftCardFormType => {
+const getDefaultValues = (
+  giftCard: GiftCardWithRelations
+): EditGiftCardFormType => {
   return {
     region: {
       region_id: {
@@ -129,7 +133,7 @@ const getDefaultValues = (giftCard: GiftCard): EditGiftCardFormType => {
       },
     },
     ends_at: {
-      ends_at: giftCard.ends_at,
+      ends_at: giftCard.ends_at ? new Date(giftCard.ends_at) : null,
     },
   }
 }

@@ -1,4 +1,9 @@
-import { Product } from "@medusajs/medusa"
+import {
+  Merge,
+  Product,
+  ProductVariant,
+  SetRelation,
+} from "@medusajs/client-types"
 import clsx from "clsx"
 import type { Identifier, XYCoord } from "dnd-core"
 import { useContext, useMemo, useRef } from "react"
@@ -16,6 +21,13 @@ import InputField from "../../../molecules/input"
 import { LayeredModalContext } from "../../../molecules/modal/layered-modal"
 import { useEditVariantScreen } from "./edit-variant-screen"
 
+type ProductWithRelations = Merge<
+  SetRelation<Product, "variants" | "options">,
+  {
+    variants: SetRelation<ProductVariant, "options" | "prices">[]
+  }
+>
+
 const ItemTypes = {
   CARD: "card",
 }
@@ -23,7 +35,7 @@ const ItemTypes = {
 export type VariantCardProps = {
   index: number
   moveCard: (dragIndex: number, hoverIndex: number) => void
-  product: Product
+  product: ProductWithRelations
 } & VariantItem
 
 export const VariantCard = ({

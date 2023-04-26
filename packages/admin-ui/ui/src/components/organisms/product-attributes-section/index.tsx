@@ -1,4 +1,4 @@
-import { Product } from "@medusajs/medusa"
+import { Product } from "@medusajs/client-types"
 import useToggleState from "../../../hooks/use-toggle-state"
 import EditIcon from "../../fundamentals/icons/edit-icon"
 import { ActionType } from "../../molecules/actionables"

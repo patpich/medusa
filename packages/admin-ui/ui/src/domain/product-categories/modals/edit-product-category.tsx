@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 
-import { ProductCategory } from "@medusajs/medusa"
-import { useAdminUpdateProductCategory } from "medusa-react"
+import { ProductCategory } from "@medusajs/client-types"
+import { useAdminUpdateProductCategory } from "@medusajs/client-react"
 
 import Button from "../../../components/fundamentals/button"
 import CrossIcon from "../../../components/fundamentals/icons/cross-icon"

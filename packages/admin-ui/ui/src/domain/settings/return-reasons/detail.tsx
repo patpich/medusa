@@ -1,8 +1,8 @@
-import { ReturnReason } from "@medusajs/medusa"
+import { ReturnReason } from "@medusajs/client-types"
 import {
   useAdminDeleteReturnReason,
   useAdminUpdateReturnReason,
-} from "medusa-react"
+} from "@medusajs/client-react"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import DuplicateIcon from "../../../components/fundamentals/icons/duplicate-icon"

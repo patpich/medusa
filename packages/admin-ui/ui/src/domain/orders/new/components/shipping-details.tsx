@@ -2,7 +2,7 @@ import qs from "query-string"
 import { useContext, useEffect, useMemo, useState } from "react"
 import { Controller, useWatch } from "react-hook-form"
 
-import { useAdminCustomer } from "medusa-react"
+import { useAdminCustomer } from "@medusajs/client-react"
 
 import Button from "../../../../components/fundamentals/button"
 import AddressForm, {
@@ -56,9 +56,13 @@ const ShippingDetails = () => {
     name: "customer_id",
   })
 
-  const { customer } = useAdminCustomer(customerId?.value!, {
-    enabled: !!customerId?.value,
-  })
+  const { customer } = useAdminCustomer(
+    customerId?.value!,
+    {},
+    {
+      enabled: !!customerId?.value,
+    }
+  )
 
   const validAddresses = useMemo(() => {
     if (!customer) {

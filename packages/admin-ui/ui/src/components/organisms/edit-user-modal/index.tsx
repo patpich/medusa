@@ -1,5 +1,5 @@
-import { User } from "@medusajs/medusa"
-import { useAdminUpdateUser } from "medusa-react"
+import { User } from "@medusajs/client-types"
+import { useAdminUpdateUser } from "@medusajs/client-react"
 import React, { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import useNotification from "../../../hooks/use-notification"
@@ -115,8 +115,8 @@ const EditUserModal: React.FC<EditUserModalProps> = ({
 
 const mapUser = (user: User): EditUserModalFormData => {
   return {
-    first_name: user.first_name,
-    last_name: user.last_name,
+    first_name: user.first_name || "",
+    last_name: user.last_name || "",
   }
 }
 

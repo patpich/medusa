@@ -1,5 +1,11 @@
-import { MoneyAmount, Product, ProductVariant } from "@medusajs/medusa"
-import { useAdminStore } from "medusa-react"
+import {
+  Merge,
+  MoneyAmount,
+  Product,
+  ProductVariant,
+  SetRelation,
+} from "@medusajs/client-types"
+import { useAdminStore } from "@medusajs/client-react"
 import * as React from "react"
 import LoadingContainer from "../../../../components/atoms/loading-container"
 import Button from "../../../../components/fundamentals/button"
@@ -17,9 +23,14 @@ import { mergeExistingWithDefault } from "../../details/utils"
 import { usePriceListForm } from "../form/pricing-form-context"
 import { CreatePriceListPricesFormValues } from "../types"
 
+type ProductWithRelations = Merge<
+  SetRelation<Product, "variants">,
+  { variants: SetRelation<ProductVariant, "prices">[] }
+>
+
 export type ProductPricesProps = {
-  products: Product[]
-  setProducts: (products: Product[]) => void
+  products: ProductWithRelations[]
+  setProducts: (products: ProductWithRelations[]) => void
   getVariantActions?: (
     product: Product,
     setProduct: (product: Product) => void
@@ -186,9 +197,9 @@ const ProductPrices = ({
 }
 
 const findProduct = (
-  products: Product[] = [],
+  products: ProductWithRelations[] = [],
   variant: ProductVariant | null
-): Product => {
+): ProductWithRelations => {
   return products.find((product) =>
     product.variants.find((v) => v.id === variant?.id)
   )!

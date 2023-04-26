@@ -2,7 +2,7 @@ import {
   AdminPostPriceListsPriceListPriceListReq,
   AdminPostPriceListsPriceListReq,
   PriceList,
-} from "@medusajs/medusa"
+} from "@medusajs/client-types"
 import xorObjFields from "../../../../utils/xorObjFields"
 import {
   CreatePriceListFormValues,
@@ -21,7 +21,7 @@ export const mapPriceListToFormValues = (
     name: priceList.name,
     ends_at: priceList.ends_at ? new Date(priceList.ends_at) : null,
     starts_at: priceList.starts_at ? new Date(priceList.starts_at) : null,
-    prices: priceList.prices.map((p) => ({
+    prices: (priceList.prices || []).map((p) => ({
       amount: p.amount,
       max_quantity: p.max_quantity,
       min_quantity: p.min_quantity,
@@ -29,7 +29,7 @@ export const mapPriceListToFormValues = (
       currency_code: p.currency_code,
       region_id: p.region_id,
     })),
-    customer_groups: priceList.customer_groups.map((pl) => ({
+    customer_groups: (priceList.customer_groups || []).map((pl) => ({
       label: pl.name,
       value: pl.id,
     })),
@@ -64,8 +64,8 @@ export const mapFormValuesToCreatePriceList = (
     customer_groups: values.customer_groups
       ? values.customer_groups.map((cg) => ({ id: cg.value }))
       : undefined,
-    ends_at: values.ends_at || undefined,
-    starts_at: values.starts_at || undefined,
+    ends_at: values.ends_at?.toISOString() || undefined,
+    starts_at: values.starts_at?.toISOString() || undefined,
     prices,
   }
 }
@@ -79,8 +79,8 @@ export const mapFormValuesToUpdatePriceListDetails = (
     customer_groups: values.customer_groups
       ? values.customer_groups.map((cg) => ({ id: cg.value }))
       : [],
-    ends_at: values.ends_at,
-    starts_at: values.starts_at,
+    ends_at: values.ends_at?.toISOString(),
+    starts_at: values.starts_at?.toISOString(),
     type: values.type || undefined,
   }
 }

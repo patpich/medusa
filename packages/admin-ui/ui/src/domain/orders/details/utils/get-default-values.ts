@@ -1,4 +1,10 @@
-import { ClaimItem, LineItem, Order, Return } from "@medusajs/medusa"
+import {
+  ClaimItem,
+  LineItem,
+  Order,
+  Return,
+  SetRelation,
+} from "@medusajs/client-types"
 import { AddressPayload } from "../../../../components/templates/address-form"
 import { Subset } from "../../../../types/shared"
 import { isoAlpha2Countries } from "../../../../utils/countries"
@@ -11,6 +17,8 @@ import { SendNotificationFormType } from "../../components/send-notification-for
 import { ShippingFormType } from "../../components/shipping-form"
 import { CreateClaimFormType } from "../claim/register-claim-menu"
 import { ReceiveReturnFormType } from "../receive-return"
+
+type OrderWithRelations = SetRelation<Order, "items">
 
 const getDefaultShippingAddressValues = (
   order: Order
@@ -36,22 +44,22 @@ const getDefaultShippingAddressValues = (
 
   return keys.reduce((acc, key) => {
     if (key === "country_code") {
-      const countryDisplayName = order.shipping_address.country_code
-        ? isoAlpha2Countries[order.shipping_address.country_code.toUpperCase()]
+      const countryDisplayName = order.shipping_address!.country_code
+        ? isoAlpha2Countries[order.shipping_address!.country_code.toUpperCase()]
         : ""
       acc[key] = {
-        value: order.shipping_address[key],
+        value: order.shipping_address![key],
         label: countryDisplayName,
       }
     } else {
-      acc[key] = order.shipping_address[key] || undefined
+      acc[key] = order.shipping_address![key] || undefined
     }
     return acc
   }, {})
 }
 
 export const getAllReturnableItems = (
-  order: Omit<Order, "beforeInserts">,
+  order: OrderWithRelations,
   isClaim: boolean
 ) => {
   let orderItems = order.items.reduce(
@@ -59,7 +67,7 @@ export const getAllReturnableItems = (
       map.set(obj.id, {
         ...obj,
       }),
-    new Map<string, Omit<LineItem, "beforeInsert">>()
+    new Map<string, LineItem>()
   )
 
   let claimedItems: ClaimItem[] = []
@@ -91,7 +99,7 @@ export const getAllReturnableItems = (
   if (!isClaim) {
     if (order.swaps && order.swaps.length) {
       for (const swap of order.swaps) {
-        orderItems = swap.additional_items.reduce(
+        orderItems = (swap.additional_items || []).reduce(
           (map, obj) =>
             map.set(obj.id, {
               ...obj,
@@ -106,7 +114,7 @@ export const getAllReturnableItems = (
     const i = orderItems.get(item.item_id)
 
     if (i) {
-      i.quantity = i.quantity - (item.item.returned_quantity || 0)
+      i.quantity = i.quantity - (item.item?.returned_quantity || 0)
       i.quantity !== 0 ? orderItems.set(i.id, i) : orderItems.delete(i.id)
     }
   }
@@ -155,9 +163,9 @@ const getReturnableItemsValues = (order: Order) => {
       item_id: item.id,
       thumbnail: item.thumbnail,
       refundable: item.refundable || 0,
-      product_title: item.variant.product.title,
-      sku: item.variant.sku,
-      variant_title: item.variant.title,
+      product_title: item.variant?.product?.title || "",
+      sku: item.variant?.sku,
+      variant_title: item.variant?.title || "",
       quantity: returnableQuantity,
       original_quantity: item.quantity,
       total: item.total || 0,
@@ -184,12 +192,12 @@ const getReceiveableItemsValues = (
         return acc
       }
 
-      const indexOfRequestedItem = returnRequest.items.findIndex(
+      const indexOfRequestedItem = returnRequest.items!.findIndex(
         (i) => i.item_id === item.item_id
       )
 
       if (item.item_id && indexOfRequestedItem > -1) {
-        const requestedItem = returnRequest.items[indexOfRequestedItem]
+        const requestedItem = returnRequest.items![indexOfRequestedItem]
 
         const adjustedQuantity =
           requestedItem.requested_quantity - requestedItem.received_quantity

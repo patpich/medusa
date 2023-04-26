@@ -1,13 +1,13 @@
 import clsx from "clsx"
 import { useEffect, useMemo, useRef, useState } from "react"
 
-import { SalesChannel } from "@medusajs/medusa"
+import { SalesChannel } from "@medusajs/client-types"
 import {
   useAdminDeleteSalesChannel,
   useAdminSalesChannels,
   useAdminStore,
   useAdminUpdateSalesChannel,
-} from "medusa-react"
+} from "@medusajs/client-react"
 
 import { useNavigate, useParams } from "react-router-dom"
 import BackButton from "../../../components/atoms/back-button"

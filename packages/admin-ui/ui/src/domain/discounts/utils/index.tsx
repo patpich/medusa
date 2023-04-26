@@ -1,10 +1,4 @@
-enum DiscountConditionType {
-  PRODUCTS = "products",
-  PRODUCT_TYPES = "product_types",
-  PRODUCT_COLLECTIONS = "product_collections",
-  PRODUCT_TAGS = "product_tags",
-  CUSTOMER_GROUPS = "customer_groups",
-}
+import { DiscountConditionType } from "../types"
 
 export const getTitle = (view: DiscountConditionType) => {
   switch (view) {

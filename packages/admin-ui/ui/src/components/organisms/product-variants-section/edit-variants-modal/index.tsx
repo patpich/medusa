@@ -1,4 +1,9 @@
-import { Product } from "@medusajs/medusa"
+import {
+  Merge,
+  Product,
+  ProductVariant,
+  SetRelation,
+} from "@medusajs/client-types"
 import { useCallback, useContext, useEffect } from "react"
 import {
   FieldArrayWithId,
@@ -15,10 +20,17 @@ import LayeredModal, {
 import { EditVariantsModalContext } from "./use-edit-variants-modal"
 import { VariantCard } from "./variant-card"
 
+type ProductWithRelations = Merge<
+  SetRelation<Product, "variants" | "options">,
+  {
+    variants: SetRelation<ProductVariant, "options" | "prices">[]
+  }
+>
+
 type Props = {
   open: boolean
   onClose: () => void
-  product: Product
+  product: ProductWithRelations
 }
 
 export type VariantItem = {
@@ -168,12 +180,21 @@ const EditVariantsModal = ({ open, onClose, product }: Props) => {
   )
 }
 
-const getDefaultValues = (product: Product): EditVariantsForm => {
+const getDefaultValues = (product: ProductWithRelations): EditVariantsForm => {
   const variants = product.variants || []
 
-  const sortedVariants = variants.sort(
-    (a, b) => a.variant_rank - b.variant_rank
-  )
+  const sortedVariants = variants.sort((a, b) => {
+    const aRank =
+      a.variant_rank === null || a.variant_rank === undefined
+        ? Infinity
+        : a.variant_rank
+    const bRank =
+      b.variant_rank === null || b.variant_rank === undefined
+        ? Infinity
+        : b.variant_rank
+
+    return aRank - bRank
+  })
 
   return {
     variants: sortedVariants.map((variant, i) => ({

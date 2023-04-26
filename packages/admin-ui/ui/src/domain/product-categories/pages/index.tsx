@@ -1,7 +1,7 @@
 import { createContext, useState } from "react"
 
-import { ProductCategory } from "@medusajs/medusa"
-import { useAdminProductCategories } from "medusa-react"
+import { ProductCategory } from "@medusajs/client-types"
+import { useAdminProductCategories } from "@medusajs/client-react"
 
 import Spacer from "../../../components/atoms/spacer"
 import BodyCard from "../../../components/organisms/body-card"

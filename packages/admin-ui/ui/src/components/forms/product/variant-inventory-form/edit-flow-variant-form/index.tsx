@@ -1,4 +1,4 @@
-import { InventoryLevelDTO } from "@medusajs/types"
+import { InventoryLevelDTO } from "@medusajs/client-types"
 import { UseFormReturn } from "react-hook-form"
 import VariantStockForm, { VariantStockFormType } from "../variant-stock-form"
 

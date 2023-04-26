@@ -1,5 +1,5 @@
-import { User } from "@medusajs/medusa"
-import { useAdminGetSession, useAdminUpdateUser } from "medusa-react"
+import { User } from "@medusajs/client-types"
+import { useAdminGetSession, useAdminUpdateUser } from "@medusajs/client-react"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import Button from "../../../../components/fundamentals/button"

@@ -1,4 +1,7 @@
-import { useAdminCreateBatchJob, useAdminCreateCollection } from "medusa-react"
+import {
+  useAdminCreateBatchJob,
+  useAdminCreateCollection,
+} from "@medusajs/client-react"
 import { useEffect, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import Fade from "../../../components/atoms/fade-wrapper"

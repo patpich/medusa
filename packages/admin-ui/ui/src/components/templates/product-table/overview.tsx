@@ -1,4 +1,4 @@
-import { Product } from "@medusajs/medusa"
+import { Product } from "@medusajs/client-types"
 import clsx from "clsx"
 import { Link } from "react-router-dom"
 import { getProductStatusVariant } from "../../../utils/product-status-variant"

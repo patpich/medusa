@@ -1,5 +1,5 @@
-import { Product } from "@medusajs/medusa"
-import { useAdminCreateVariant, useAdminStore } from "medusa-react"
+import { Product, SetRelation } from "@medusajs/client-types"
+import { useAdminCreateVariant, useAdminStore } from "@medusajs/client-react"
 import { useCallback, useMemo } from "react"
 import { useForm } from "react-hook-form"
 import useNotification from "../../../hooks/use-notification"
@@ -23,7 +23,7 @@ type Props = {
   /**
    * Gift card
    */
-  giftCard: Product
+  giftCard: SetRelation<Product, "variants" | "options">
 }
 
 type AddDenominationModalFormType = {

@@ -1,10 +1,10 @@
-import { ReturnItem } from "@medusajs/medusa"
+import { ReturnItem } from "@medusajs/client-types"
 import {
   useAdminCancelReturn,
   useAdminCancelSwap,
   useAdminOrder,
   useAdminStore,
-} from "medusa-react"
+} from "@medusajs/client-react"
 import React, { useEffect, useState } from "react"
 
 import CreateFulfillmentModal from "../../../domain/orders/details/create-fulfillment"
@@ -124,7 +124,7 @@ const Exchange: React.FC<ExchangeProps> = ({ event, refetch }) => {
   )
 
   const handleCancelExchange = async () => {
-    await cancelExchange.mutateAsync(event.id)
+    await cancelExchange.mutateAsync({ swap_id: event.id })
     refetch()
   }
 

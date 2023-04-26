@@ -1,4 +1,4 @@
-import { Order } from "@medusajs/medusa"
+import { Order } from "@medusajs/client-types"
 import { useWatch } from "react-hook-form"
 import Button from "../../../../components/fundamentals/button"
 import { AddressPayload } from "../../../../components/templates/address-form"

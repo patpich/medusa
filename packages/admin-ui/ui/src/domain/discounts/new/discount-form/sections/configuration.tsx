@@ -1,4 +1,4 @@
-import { Discount } from "@medusajs/medusa"
+import { Discount } from "@medusajs/client-types"
 import clsx from "clsx"
 import React, { useEffect, useState } from "react"
 import { Controller } from "react-hook-form"

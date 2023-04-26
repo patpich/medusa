@@ -1,8 +1,12 @@
 import {
   AdminGetVariantsVariantInventoryRes,
+  LineItem,
+  Merge,
   Order,
+  ReservationItemDTO,
+  SetRelation,
   VariantInventory,
-} from "@medusajs/medusa"
+} from "@medusajs/client-types"
 import { DisplayTotal, PaymentDetails } from "../templates"
 import React, { useContext, useMemo } from "react"
 
@@ -13,16 +17,20 @@ import BodyCard from "../../../../components/organisms/body-card"
 import CopyToClipboard from "../../../../components/atoms/copy-to-clipboard"
 import { OrderEditContext } from "../../edit/context"
 import OrderLine from "../order-line"
-import { ReservationItemDTO } from "@medusajs/types"
 import { Response } from "@medusajs/medusa-js"
 import StatusIndicator from "../../../../components/fundamentals/status-indicator"
 import { sum } from "lodash"
 import { useFeatureFlag } from "../../../../providers/feature-flag-provider"
-import { useMedusa } from "medusa-react"
+import { useMedusaAdmin } from "@medusajs/client-react"
 import useToggleState from "../../../../hooks/use-toggle-state"
 
+type OrderWithRelations = Merge<
+  SetRelation<Order, "items" | "swaps" | "discount_total" | "gift_card_total">,
+  { items: SetRelation<LineItem, "variant">[] }
+>
+
 type SummaryCardProps = {
-  order: Order
+  order: OrderWithRelations
   reservations: ReservationItemDTO[]
 }
 
@@ -34,7 +42,7 @@ const SummaryCard: React.FC<SummaryCardProps> = ({ order, reservations }) => {
   } = useToggleState()
 
   const { showModal } = useContext(OrderEditContext)
-  const { client } = useMedusa()
+  const { client } = useMedusaAdmin()
   const { isFeatureEnabled } = useFeatureFlag()
   const inventoryEnabled = isFeatureEnabled("inventoryService")
 
@@ -53,7 +61,7 @@ const SummaryCard: React.FC<SummaryCardProps> = ({ order, reservations }) => {
           if (!item.variant_id) {
             return
           }
-          return await client.admin.variants.getInventory(item.variant_id)
+          return await client.variants.getInventory(item.variant_id)
         })
       )
 
@@ -75,7 +83,7 @@ const SummaryCard: React.FC<SummaryCardProps> = ({ order, reservations }) => {
     }
 
     fetchInventory()
-  }, [order.items, inventoryEnabled, client.admin.variants])
+  }, [order.items, inventoryEnabled, client.variants])
 
   const reservationItemsMap = useMemo(() => {
     if (!reservations?.length || !inventoryEnabled) {

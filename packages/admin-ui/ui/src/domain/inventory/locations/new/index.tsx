@@ -1,13 +1,14 @@
-import { AdminPostStockLocationsReq, SalesChannel } from "@medusajs/medusa"
-import GeneralForm, { GeneralFormType } from "../components/general-form"
 import {
+  AdminPostStockLocationsReq,
+  SalesChannel,
   StockLocationAddressDTO,
   StockLocationAddressInput,
-} from "@medusajs/types"
+} from "@medusajs/client-types"
+import GeneralForm, { GeneralFormType } from "../components/general-form"
 import {
   useAdminAddLocationToSalesChannel,
   useAdminCreateStockLocation,
-} from "medusa-react"
+} from "@medusajs/client-react"
 
 import Accordion from "../../../../components/organisms/accordion"
 import AddressForm from "../components/address-form"

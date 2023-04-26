@@ -1,19 +1,21 @@
-import { Store } from "@medusajs/medusa"
+import { SetRelation, Store } from "@medusajs/client-types"
 import { createContext, useContext } from "react"
 import LayeredModal, {
   LayeredModalContext,
 } from "../../../../../components/molecules/modal/layered-modal"
 import CurrentCurrenciesScreen from "./current-currencies-screen"
 
+type StoreWithRelations = SetRelation<Store, "currencies">
+
 type Props = {
-  store: Store
+  store: StoreWithRelations
   open: boolean
   onClose: () => void
 }
 
 type EditCurrenciesModalContextType = {
   onClose: () => void
-  store: Store
+  store: StoreWithRelations
 }
 
 const EditCurrenciesModalContext =

@@ -1,5 +1,5 @@
-import { AdminPostRegionsReq } from "@medusajs/medusa"
-import { useAdminCreateRegion } from "medusa-react"
+import { AdminPostRegionsReq } from "@medusajs/client-types"
+import { useAdminCreateRegion } from "@medusajs/client-react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"

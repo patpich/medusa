@@ -1,5 +1,8 @@
-import { AdminPostTaxRatesTaxRateReq, TaxRate } from "@medusajs/medusa"
-import { useAdminUpdateRegion, useAdminUpdateTaxRate } from "medusa-react"
+import { AdminPostTaxRatesTaxRateReq, TaxRate } from "@medusajs/client-types"
+import {
+  useAdminUpdateRegion,
+  useAdminUpdateTaxRate,
+} from "@medusajs/client-react"
 import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import Button from "../../../components/fundamentals/button"
@@ -45,9 +48,9 @@ const EditTaxRate = ({
         code: taxRate.code || undefined,
         rate: taxRate.rate || undefined,
       },
-      products: taxRate.products.map((p) => p.id),
-      product_types: taxRate.product_types.map((p) => p.id),
-      shipping_options: taxRate.shipping_options.map((p) => p.id),
+      products: (taxRate.products || []).map((p) => p.id),
+      product_types: (taxRate.product_types || []).map((p) => p.id),
+      shipping_options: (taxRate.shipping_options || []).map((p) => p.id),
     },
   })
   const { register, setValue, handleSubmit, watch } = form

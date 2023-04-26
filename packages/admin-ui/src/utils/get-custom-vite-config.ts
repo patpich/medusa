@@ -27,7 +27,7 @@ export const getCustomViteConfig = (config: AdminBuildConfig): InlineConfig => {
     const global = {}
 
     global["__BASE__"] = JSON.stringify(globals.base ? `/${globals.base}` : "/")
-    global["__MEDUSA_BACKEND_URL__"] = JSON.stringify(backend ? backend : "/")
+    global["__MEDUSA_BACKEND_URL__"] = JSON.stringify(backend ? backend : "")
 
     return global
   }

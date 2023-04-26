@@ -1,4 +1,4 @@
-import { useAdminCustomerGroups } from "medusa-react"
+import { useAdminCustomerGroups } from "@medusajs/client-react"
 import { useContext, useState } from "react"
 import Modal from "../../../../../../../components/molecules/modal"
 import { SelectableTable } from "../../../../../../../components/templates/selectable-table"

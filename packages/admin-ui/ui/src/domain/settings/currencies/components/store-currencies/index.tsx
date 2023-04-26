@@ -1,10 +1,12 @@
-import { Store } from "@medusajs/medusa"
+import { SetRelation, Store } from "@medusajs/client-types"
 import Button from "../../../../../components/fundamentals/button"
 import useToggleState from "../../../../../hooks/use-toggle-state"
 import EditCurrenciesModal from "./edit-currencies-modal"
 
+type StoreWithRelations = SetRelation<Store, "currencies" | "default_currency">
+
 type Props = {
-  store: Store
+  store: StoreWithRelations
 }
 
 const StoreCurrencies = ({ store }: Props) => {

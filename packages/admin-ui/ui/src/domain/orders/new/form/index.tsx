@@ -1,10 +1,10 @@
-import { Product, Region, ShippingOption } from "@medusajs/medusa"
+import { Product, Region, ShippingOption } from "@medusajs/client-types"
 import {
   useAdminRegion,
   useAdminShippingOption,
   useAdminShippingOptions,
-  useMedusa,
-} from "medusa-react"
+  useMedusaAdmin,
+} from "@medusajs/client-react"
 import { createContext, ReactNode, useContext, useEffect, useMemo } from "react"
 import {
   FormProvider,
@@ -99,7 +99,7 @@ const NewOrderFormProvider = ({ children }: { children?: ReactNode }) => {
     }))
   }, [region])
 
-  const { client } = useMedusa()
+  const { client } = useMedusaAdmin()
 
   useEffect(() => {
     const updateItems = async () => {
@@ -115,8 +115,8 @@ const NewOrderFormProvider = ({ children }: { children?: ReactNode }) => {
           .map((v) => v.variant_id)
           .filter(Boolean) as string[]
 
-        const { variants } = await client.admin.variants.list({
-          id: variantIds,
+        const { variants } = await client.variants.list({
+          ids: variantIds,
           region_id: region?.id,
         })
 

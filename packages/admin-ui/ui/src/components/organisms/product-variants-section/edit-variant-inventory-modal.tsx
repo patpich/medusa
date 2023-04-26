@@ -1,26 +1,30 @@
+import {
+  adminInventoryItemKeys,
+  useAdminVariantsInventory,
+  useMedusaAdmin,
+} from "@medusajs/client-react"
+import {
+  InventoryLevelDTO,
+  Product,
+  ProductVariant,
+  VariantInventory,
+} from "@medusajs/client-types"
+import { useContext } from "react"
+import { useForm } from "react-hook-form"
+import { queryClient } from "../../../constants/query-client"
+import useEditProductActions from "../../../hooks/use-edit-product-actions"
+import { Option } from "../../../types/shared"
+import { countries } from "../../../utils/countries"
+import { removeNullish } from "../../../utils/remove-nullish"
 import EditFlowVariantForm, {
   EditFlowVariantFormType,
 } from "../../forms/product/variant-inventory-form/edit-flow-variant-form"
+
+import Button from "../../fundamentals/button"
+import Modal from "../../molecules/modal"
 import LayeredModal, {
   LayeredModalContext,
 } from "../../molecules/modal/layered-modal"
-import { Product, ProductVariant, VariantInventory } from "@medusajs/medusa"
-import {
-  adminInventoryItemsKeys,
-  useAdminVariantsInventory,
-  useMedusa,
-} from "medusa-react"
-
-import Button from "../../fundamentals/button"
-import { InventoryLevelDTO } from "@medusajs/types"
-import Modal from "../../molecules/modal"
-import { queryClient } from "../../../constants/query-client"
-import { removeNullish } from "../../../utils/remove-nullish"
-import { useContext } from "react"
-import useEditProductActions from "../../../hooks/use-edit-product-actions"
-import { useForm } from "react-hook-form"
-import { countries } from "../../../utils/countries"
-import { Option } from "../../../types/shared"
 
 type Props = {
   onClose: () => void
@@ -30,7 +34,7 @@ type Props = {
 }
 
 const EditVariantInventoryModal = ({ onClose, product, variant }: Props) => {
-  const { client } = useMedusa()
+  const { client } = useMedusaAdmin()
   const layeredModalContext = useContext(LayeredModalContext)
   const {
     // @ts-ignore
@@ -99,7 +103,7 @@ const EditVariantInventoryModal = ({ onClose, product, variant }: Props) => {
       if (inventoryItemId) {
         await Promise.all(
           deleteLocations.map(async (location: InventoryLevelDTO) => {
-            await client.admin.inventoryItems.deleteLocationLevel(
+            await client.inventoryItems.deleteLocationLevel(
               inventoryItemId!,
               location.location_id
             )
@@ -112,16 +116,16 @@ const EditVariantInventoryModal = ({ onClose, product, variant }: Props) => {
 
       if (!manageInventory) {
         // has an inventory item but no longer wants to manage inventory
-        await client.admin.inventoryItems.delete(itemId!)
+        await client.inventoryItems.delete(itemId!)
         inventoryItemId = undefined
         shouldInvalidateCache = true
       } else {
         // has an inventory item and wants to update inventory
-        await client.admin.inventoryItems.update(itemId!, upsertPayload)
+        await client.inventoryItems.update(itemId!, upsertPayload)
       }
     } else if (manageInventory) {
       // does not have an inventory item but wants to manage inventory
-      const { inventory_item } = await client.admin.inventoryItems.create({
+      const { inventory_item } = await client.inventoryItems.create({
         variant_id: variant.id,
         ...upsertPayload,
       })
@@ -136,7 +140,7 @@ const EditVariantInventoryModal = ({ onClose, product, variant }: Props) => {
             return
           }
           if (level.id) {
-            await client.admin.inventoryItems.updateLocationLevel(
+            await client.inventoryItems.updateLocationLevel(
               inventoryItemId!,
               level.location_id,
               {
@@ -144,13 +148,10 @@ const EditVariantInventoryModal = ({ onClose, product, variant }: Props) => {
               }
             )
           } else {
-            await client.admin.inventoryItems.createLocationLevel(
-              inventoryItemId!,
-              {
-                location_id: level.location_id,
-                stocked_quantity: level.stocked_quantity!,
-              }
-            )
+            await client.inventoryItems.createLocationLevel(inventoryItemId!, {
+              location_id: level.location_id,
+              stocked_quantity: level.stocked_quantity!,
+            })
           }
         })
       )
@@ -176,7 +177,7 @@ const EditVariantInventoryModal = ({ onClose, product, variant }: Props) => {
       () => {
         refetch()
         if (shouldInvalidateCache) {
-          queryClient.invalidateQueries(adminInventoryItemsKeys.lists())
+          queryClient.invalidateQueries(adminInventoryItemKeys.lists())
         }
         handleClose()
       }

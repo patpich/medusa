@@ -1,6 +1,6 @@
-import { SalesChannel } from "@medusajs/medusa"
+import { SalesChannel } from "@medusajs/client-types"
 import clsx from "clsx"
-import { useAdminStore } from "medusa-react"
+import { useAdminStore } from "@medusajs/client-react"
 import { useEffect, useState } from "react"
 import { useFieldArray } from "react-hook-form"
 import Switch from "../../../components/atoms/switch"
@@ -40,7 +40,7 @@ const AddSalesChannelsForm = ({ form }: Props) => {
 
   const onAddChannels = (channels: SalesChannel[]) => {
     if (store?.default_sales_channel) {
-      if (!channels.find(({ id }) => id === store.default_sales_channel.id)) {
+      if (!channels.find(({ id }) => id === store.default_sales_channel?.id)) {
         setRemovedDefaultSalesChannel(true)
       }
     }
@@ -51,7 +51,7 @@ const AddSalesChannelsForm = ({ form }: Props) => {
   useEffect(() => {
     if (store?.default_sales_channel && fields) {
       const alreadyAdded = fields.find(
-        ({ id }) => id === store.default_sales_channel.id
+        ({ id }) => id === store.default_sales_channel?.id
       )
 
       if (!alreadyAdded && !removedDefaultSalesChannel) {

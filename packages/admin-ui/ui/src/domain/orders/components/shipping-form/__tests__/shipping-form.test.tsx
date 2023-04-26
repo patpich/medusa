@@ -1,4 +1,4 @@
-import { Order, ShippingOption } from "@medusajs/medusa"
+import { Order, ShippingOption } from "@medusajs/client-types"
 import { renderHook, screen, waitFor } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { UserEvent } from "@testing-library/user-event/dist/types/setup/setup"

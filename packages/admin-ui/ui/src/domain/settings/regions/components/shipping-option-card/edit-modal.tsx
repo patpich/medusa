@@ -1,5 +1,5 @@
-import { ShippingOption } from "@medusajs/medusa"
-import { useAdminUpdateShippingOption } from "medusa-react"
+import { SetRelation, ShippingOption } from "@medusajs/client-types"
+import { useAdminUpdateShippingOption } from "@medusajs/client-react"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import {
@@ -15,10 +15,12 @@ import ShippingOptionForm, {
 } from "../shipping-option-form"
 import { useShippingOptionFormData } from "../shipping-option-form/use-shipping-option-form-data"
 
+type ShippingOptionWithRelation = SetRelation<ShippingOption, "region">
+
 type Props = {
   open: boolean
   onClose: () => void
-  option: ShippingOption
+  option: ShippingOptionWithRelation
 }
 
 const EditModal = ({ open, onClose, option }: Props) => {
@@ -112,8 +114,12 @@ const EditModal = ({ open, onClose, option }: Props) => {
 }
 
 const getDefaultValues = (option: ShippingOption): ShippingOptionFormType => {
-  const minSubtotal = option.requirements.find((r) => r.type === "min_subtotal")
-  const maxSubtotal = option.requirements.find((r) => r.type === "max_subtotal")
+  const minSubtotal = (option.requirements || []).find(
+    (r) => r.type === "min_subtotal"
+  )
+  const maxSubtotal = (option.requirements || []).find(
+    (r) => r.type === "max_subtotal"
+  )
 
   return {
     store_option: option.admin_only ? false : true,

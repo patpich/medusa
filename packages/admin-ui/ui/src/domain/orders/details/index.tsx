@@ -4,7 +4,7 @@ import {
   Fulfillment,
   LineItem,
   Swap,
-} from "@medusajs/medusa"
+} from "@medusajs/client-types"
 import {
   useAdminCancelOrder,
   useAdminCapturePayment,
@@ -12,7 +12,7 @@ import {
   useAdminRegion,
   useAdminReservations,
   useAdminUpdateOrder,
-} from "medusa-react"
+} from "@medusajs/client-react"
 import { useNavigate, useParams } from "react-router-dom"
 import OrderEditProvider, { OrderEditContext } from "../edit/context"
 import {
@@ -278,7 +278,7 @@ const OrderDetails = () => {
     navigate("/404")
   }
 
-  const anyItemsToFulfil = order.items.some(
+  const anyItemsToFulfil = order?.items.some(
     (item: LineItem) => item.quantity > (item.fulfilled_quantity ?? 0)
   )
 

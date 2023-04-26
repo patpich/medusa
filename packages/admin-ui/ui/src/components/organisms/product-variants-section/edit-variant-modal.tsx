@@ -1,4 +1,8 @@
-import { Product, ProductVariant } from "@medusajs/medusa"
+import {
+  PricedProduct,
+  ProductVariant,
+  SetRelation,
+} from "@medusajs/client-types"
 import EditFlowVariantForm, {
   EditFlowVariantFormType,
 } from "../../forms/product/variant-form/edit-flow-variant-form"
@@ -6,7 +10,7 @@ import LayeredModal, {
   LayeredModalContext,
 } from "../../molecules/modal/layered-modal"
 
-import { useMedusa } from "medusa-react"
+import { useMedusaAdmin } from "@medusajs/client-react"
 import { useContext } from "react"
 import { useForm } from "react-hook-form"
 import useEditProductActions from "../../../hooks/use-edit-product-actions"
@@ -17,10 +21,16 @@ import Modal from "../../molecules/modal"
 import { createAddPayload } from "./add-variant-modal"
 import { createUpdatePayload } from "./edit-variants-modal/edit-variant-screen"
 
+type ProductWithRelations = SetRelation<PricedProduct, "variants" | "options">
+type ProductVariantWithRelations = SetRelation<
+  ProductVariant,
+  "options" | "prices"
+>
+
 type Props = {
   onClose: () => void
-  product: Product
-  variant: ProductVariant
+  product: ProductWithRelations
+  variant: ProductVariantWithRelations
   isDuplicate?: boolean
 }
 
@@ -49,10 +59,10 @@ const EditVariantModal = ({
   const { onUpdateVariant, onAddVariant, addingVariant, updatingVariant } =
     useEditProductActions(product.id)
 
-  const { client } = useMedusa()
+  const { client } = useMedusaAdmin()
 
   const createStockLocationsForVariant = async (
-    productRes: Product,
+    productRes: ProductWithRelations,
     stock_locations: { stocked_quantity: number; location_id: string }[]
   ) => {
     const { variants } = productRes
@@ -64,14 +74,14 @@ const EditVariantModal = ({
       return
     }
 
-    const inventory = await client.admin.variants.getInventory(addedVariant.id)
+    const inventory = await client.variants.getInventory(addedVariant.id)
 
     await Promise.all(
       inventory.variant.inventory
         .map(async (item) => {
           return Promise.all(
             stock_locations.map(async (stock_location) => {
-              client.admin.inventoryItems.createLocationLevel(item.id!, {
+              client.inventoryItems.createLocationLevel(item.id!, {
                 location_id: stock_location.location_id,
                 stocked_quantity: stock_location.stocked_quantity,
               })
@@ -151,8 +161,8 @@ const EditVariantModal = ({
 }
 
 export const getEditVariantDefaultValues = (
-  variant: ProductVariant,
-  product: Product
+  variant: ProductVariantWithRelations,
+  product: ProductWithRelations
 ): EditFlowVariantFormType => {
   const options = product.options.map((option) => ({
     title: option.title,

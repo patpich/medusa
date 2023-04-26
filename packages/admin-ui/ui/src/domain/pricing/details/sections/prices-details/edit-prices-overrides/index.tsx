@@ -1,5 +1,11 @@
-import { MoneyAmount, Product } from "@medusajs/medusa"
-import { useAdminStore, useAdminUpdatePriceList } from "medusa-react"
+import {
+  Merge,
+  MoneyAmount,
+  Product,
+  ProductVariant,
+  SetRelation,
+} from "@medusajs/client-types"
+import { useAdminStore, useAdminUpdatePriceList } from "@medusajs/client-react"
 import { useParams } from "react-router-dom"
 import Button from "../../../../../../components/fundamentals/button"
 import { CollapsibleTree } from "../../../../../../components/molecules/collapsible-tree"
@@ -13,8 +19,13 @@ import { mergeExistingWithDefault } from "../../../utils"
 import { mapToPriceList } from "./mappers"
 import ProductVariantLeaf from "./product-variant-leaf"
 
+type ProductWithRelations = Merge<
+  SetRelation<Product, "variants">,
+  { variants: SetRelation<ProductVariant, "prices">[] }
+>
+
 type EditPricesOverridesModalProps = {
-  product: Product
+  product: ProductWithRelations
   close: () => void
 }
 

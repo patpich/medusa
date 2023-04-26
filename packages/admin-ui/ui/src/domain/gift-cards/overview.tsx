@@ -1,10 +1,9 @@
-import { Product } from "@medusajs/medusa"
 import {
   useAdminDeleteProduct,
   useAdminProducts,
   useAdminStore,
   useAdminUpdateProduct,
-} from "medusa-react"
+} from "@medusajs/client-react"
 import { useMemo, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import PageDescription from "../../components/atoms/page-description"
@@ -89,7 +88,7 @@ const Overview = () => {
     }
 
     return {
-      ...(giftCard as Product),
+      ...giftCard,
       defaultCurrency: store.default_currency_code,
     }
   }, [giftCard, store])

@@ -6,8 +6,8 @@ import Spinner from "../spinner"
 type AvatarProps = {
   user?: {
     img?: string
-    first_name?: string
-    last_name?: string
+    first_name?: string | null
+    last_name?: string | null
     email?: string
   }
   font?: string

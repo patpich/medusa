@@ -3,7 +3,7 @@ import {
   InventoryItemDTO,
   InventoryLevelDTO,
   ProductVariant,
-} from "@medusajs/medusa"
+} from "@medusajs/client-types"
 import React, { useEffect, useMemo, useState } from "react"
 import {
   useAdminInventoryItems,
@@ -11,7 +11,7 @@ import {
   useAdminStore,
   useAdminUpdateLocationLevel,
   useAdminVariant,
-} from "medusa-react"
+} from "@medusajs/client-react"
 import { useLocation, useNavigate } from "react-router-dom"
 
 import Button from "../../fundamentals/button"
@@ -388,7 +388,7 @@ const AdjustAvailabilityModal = ({
   const onSubmit = () => {
     updateLocationLevelForInventoryItem(
       {
-        stockLocationId: locationLevel!.location_id,
+        location_id: locationLevel!.location_id,
         stocked_quantity: stockedQuantity,
       },
       {

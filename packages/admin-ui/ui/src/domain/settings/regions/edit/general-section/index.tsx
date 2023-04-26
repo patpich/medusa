@@ -1,5 +1,5 @@
-import { Region } from "@medusajs/medusa"
-import { useAdminDeleteRegion } from "medusa-react"
+import { Region } from "@medusajs/client-types"
+import { useAdminDeleteRegion } from "@medusajs/client-react"
 import React from "react"
 import { useNavigate } from "react-router-dom"
 import Tooltip from "../../../../../components/atoms/tooltip"
@@ -151,7 +151,8 @@ const GeneralSection = ({ region }: Props) => {
             </RegionDetail>
             <RegionDetail title={"Fulfillment providers"}>
               <div>
-                {region.payment_providers && region.payment_providers.length ? (
+                {region.fulfillment_providers &&
+                region.fulfillment_providers.length ? (
                   <div className="gap-x-xsmall flex items-center">
                     <p>
                       {region.fulfillment_providers

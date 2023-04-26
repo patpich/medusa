@@ -1,4 +1,7 @@
-import { useAdminDeleteDiscount, useAdminDiscount } from "medusa-react"
+import {
+  useAdminDeleteDiscount,
+  useAdminDiscount,
+} from "@medusajs/client-react"
 import { useState } from "react"
 import { useParams } from "react-router-dom"
 import BackButton from "../../../components/atoms/back-button"
@@ -17,11 +20,12 @@ const Edit = () => {
 
   const { discount, isLoading } = useAdminDiscount(
     id!,
-    { expand: "rule,rule.conditions" },
+    {},
     {
       enabled: !!id,
     }
   )
+  console.log(discount)
   const [showDelete, setShowDelete] = useState(false)
   const deleteDiscount = useAdminDeleteDiscount(id!)
   const notification = useNotification()

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-import { BatchJob } from "@medusajs/medusa"
+import { BatchJob } from "@medusajs/client-types"
 import {
   useAdminBatchJob,
   useAdminCancelBatchJob,
@@ -8,7 +8,7 @@ import {
   useAdminCreateBatchJob,
   useAdminDeleteFile,
   useAdminUploadProtectedFile,
-} from "medusa-react"
+} from "@medusajs/client-react"
 
 import UploadModal from "../../../components/organisms/upload-modal"
 import useNotification from "../../../hooks/use-notification"

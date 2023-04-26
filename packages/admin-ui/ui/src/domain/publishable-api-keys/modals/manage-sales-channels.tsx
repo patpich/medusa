@@ -3,10 +3,10 @@ import { motion } from "framer-motion"
 
 import {
   useAdminAddPublishableKeySalesChannelsBatch,
-  useAdminRemovePublishableKeySalesChannelsBatch,
   useAdminPublishableApiKeySalesChannels,
+  useAdminRemovePublishableKeySalesChannelsBatch,
   useAdminSalesChannels,
-} from "medusa-react"
+} from "@medusajs/client-react"
 
 import Button from "../../../components/fundamentals/button"
 import SideModal from "../../../components/molecules/modal/side-modal"

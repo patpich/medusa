@@ -1,4 +1,4 @@
-import { SalesChannel } from "@medusajs/medusa"
+import { SalesChannel } from "@medusajs/client-types"
 import React, { useContext } from "react"
 
 type SalesChannelsModalContextType = {

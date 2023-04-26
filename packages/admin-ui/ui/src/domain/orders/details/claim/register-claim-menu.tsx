@@ -1,5 +1,8 @@
-import { ClaimReason, Order, StockLocationDTO } from "@medusajs/medusa"
-import { useAdminStockLocations, useAdminCreateClaim } from "medusa-react"
+import { ClaimReason, Order, StockLocationDTO } from "@medusajs/client-types"
+import {
+  useAdminCreateClaim,
+  useAdminStockLocations,
+} from "@medusajs/client-react"
 import { useEffect } from "react"
 import { Controller, useForm, useWatch } from "react-hook-form"
 import Spinner from "../../../../components/atoms/spinner"

@@ -1,4 +1,4 @@
-import { useAdminGetSession } from "medusa-react"
+import { useAdminGetSession } from "@medusajs/client-react"
 import { useMemo } from "react"
 
 export const useIsMe = (userId: string | undefined) => {

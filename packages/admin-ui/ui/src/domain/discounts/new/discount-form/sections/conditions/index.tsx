@@ -1,4 +1,4 @@
-import { Discount } from "@medusajs/medusa"
+import { Discount } from "@medusajs/client-types"
 import React, { useEffect, useMemo, useState } from "react"
 import Button from "../../../../../../components/fundamentals/button"
 import PlusIcon from "../../../../../../components/fundamentals/icons/plus-icon"

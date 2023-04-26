@@ -1,11 +1,11 @@
-import { Address } from "@medusajs/medusa"
+import { Address } from "@medusajs/client-types"
 import {
   useAdminDeleteDraftOrder,
   useAdminDraftOrder,
   useAdminDraftOrderRegisterPayment,
   useAdminStore,
   useAdminUpdateDraftOrder,
-} from "medusa-react"
+} from "@medusajs/client-react"
 import moment from "moment"
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
@@ -246,7 +246,7 @@ const DraftOrderDetails = () => {
                     {store?.payment_link_template ? (
                       <CopyToClipboard
                         value={paymentLink}
-                        displayValue={draft_order.cart_id}
+                        displayValue={draft_order.cart_id || undefined}
                         successDuration={1000}
                       />
                     ) : (
@@ -288,11 +288,14 @@ const DraftOrderDetails = () => {
                 {
                   label: "Edit Shipping Address",
                   icon: <TruckIcon size={"20"} />,
-                  onClick: () =>
-                    setAddressModal({
-                      address: cart?.shipping_address,
-                      type: AddressType.SHIPPING,
-                    }),
+                  onClick: () => {
+                    if (cart?.shipping_address) {
+                      setAddressModal({
+                        address: cart?.shipping_address,
+                        type: AddressType.SHIPPING,
+                      })
+                    }
+                  },
                 },
                 {
                   label: "Edit Billing Address",

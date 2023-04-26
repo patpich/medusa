@@ -2,7 +2,7 @@ import React from "react"
 import Avatar from "../../../atoms/avatar"
 
 type ByLineProps = {
-  user?: { first_name: string; last_name: string; email: string }
+  user?: { first_name: string | null; last_name: string | null; email: string }
 }
 
 export const ByLine: React.FC<ByLineProps> = ({ user }) => {

@@ -1,9 +1,14 @@
-import { Discount } from "@medusajs/medusa"
+import {
+  Discount,
+  DiscountRule,
+  Merge,
+  SetRelation,
+} from "@medusajs/client-types"
 import {
   useAdminDiscount,
   useAdminDiscountRemoveCondition,
   useAdminGetDiscountCondition,
-} from "medusa-react"
+} from "@medusajs/client-react"
 import { useState } from "react"
 import EditIcon from "../../../../components/fundamentals/icons/edit-icon"
 import TrashIcon from "../../../../components/fundamentals/icons/trash-icon"
@@ -12,7 +17,14 @@ import useNotification from "../../../../hooks/use-notification"
 import { getErrorMessage } from "../../../../utils/error-messages"
 import { DiscountConditionType } from "../../types"
 
-export const useDiscountConditions = (discount: Discount) => {
+type DiscountWithRelations = Merge<
+  SetRelation<Discount, "rule">,
+  {
+    rule: SetRelation<DiscountRule, "conditions">
+  }
+>
+
+export const useDiscountConditions = (discount: DiscountWithRelations) => {
   const [selectedCondition, setSelectedCondition] = useState<string | null>(
     null
   )
@@ -32,15 +44,18 @@ export const useDiscountConditions = (discount: Discount) => {
   const notification = useNotification()
 
   const removeCondition = (conditionId: string) => {
-    mutate(conditionId, {
-      onSuccess: () => {
-        notification("Success", "Condition removed", "success")
-        refetch()
-      },
-      onError: (error) => {
-        notification("Error", getErrorMessage(error), "error")
-      },
-    })
+    mutate(
+      { condition_id: conditionId },
+      {
+        onSuccess: () => {
+          notification("Success", "Condition removed", "success")
+          refetch()
+        },
+        onError: (error) => {
+          notification("Error", getErrorMessage(error), "error")
+        },
+      }
+    )
   }
 
   const itemized = discount.rule.conditions.map((condition) => ({

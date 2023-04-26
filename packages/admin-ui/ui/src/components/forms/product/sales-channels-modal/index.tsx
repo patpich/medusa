@@ -1,4 +1,4 @@
-import { SalesChannel } from "@medusajs/medusa"
+import { SalesChannel } from "@medusajs/client-types"
 import Button from "../../../fundamentals/button"
 import Modal from "../../../molecules/modal"
 import LayeredModal, {

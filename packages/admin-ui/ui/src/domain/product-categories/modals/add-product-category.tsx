@@ -1,10 +1,10 @@
 import { useState } from "react"
 
-import { ProductCategory } from "@medusajs/medusa"
+import { ProductCategory } from "@medusajs/client-types"
 import {
   adminProductCategoryKeys,
   useAdminCreateProductCategory,
-} from "medusa-react"
+} from "@medusajs/client-react"
 
 import { useQueryClient } from "@tanstack/react-query"
 import Button from "../../../components/fundamentals/button"
@@ -33,6 +33,7 @@ const statusOptions = [
 type CreateProductCategoryProps = {
   closeModal: () => void
   parentCategory?: ProductCategory
+  categories: ProductCategory[]
 }
 
 /**

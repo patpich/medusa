@@ -1,4 +1,9 @@
-import { Product } from "@medusajs/medusa"
+import {
+  Merge,
+  Product,
+  ProductVariant,
+  SetRelation,
+} from "@medusajs/client-types"
 import * as React from "react"
 import Fade from "../../../../../components/atoms/fade-wrapper"
 import EditIcon from "../../../../../components/fundamentals/icons/edit-icon"
@@ -10,12 +15,16 @@ import EditPricesOverridesModal from "./edit-prices-overrides"
 import ImportPrices from "../../../batch-job/import"
 import PricesTable from "./prices-table"
 
+type ProductWithRelations = Merge<
+  SetRelation<Product, "variants">,
+  { variants: SetRelation<ProductVariant, "prices">[] }
+>
+
 const Prices = ({ id }) => {
   const { state: showEdit, open: openEdit, close: closeEdit } = useToggleState()
   const [showUpload, openUpload, closeUpload] = useToggleState()
-  const [selectedProduct, setSelectedProduct] = React.useState<Product | null>(
-    null
-  )
+  const [selectedProduct, setSelectedProduct] =
+    React.useState<ProductWithRelations | null>(null)
   const actionables = [
     {
       label: "Edit manually",

@@ -1,4 +1,4 @@
-import { LineItem, Order } from "@medusajs/medusa"
+import { LineItem, Order, SetRelation } from "@medusajs/client-types"
 import clsx from "clsx"
 import React, { Fragment, useContext } from "react"
 import RMAReturnReasonSubModal from "../../../domain/orders/details/rma-sub-modals/return-reasons"
@@ -13,9 +13,11 @@ import PlusIcon from "../../fundamentals/icons/plus-icon"
 import { LayeredModalContext } from "../../molecules/modal/layered-modal"
 import Table from "../../molecules/table"
 
+type OrderWithRelations = SetRelation<Order, "swaps" | "claims">
+
 type RMASelectProductTableProps = {
-  order: Omit<Order, "beforeInsert">
-  allItems: Omit<LineItem, "beforeInsert">[]
+  order: OrderWithRelations
+  allItems: LineItem[]
   toReturn: any
   setToReturn: (items: any) => void
   customReturnOptions?: any[]
@@ -159,7 +161,7 @@ const RMASelectProductTable: React.FC<RMASelectProductTableProps> = ({
                     <div className="h-[40px] w-[30px] ">
                       <img
                         className="h-full w-full rounded object-cover"
-                        src={item.thumbnail}
+                        src={item.thumbnail || undefined}
                       />
                     </div>
                     <div className="inter-small-regular text-grey-50 ml-4 flex flex-col">
@@ -201,7 +203,7 @@ const RMASelectProductTable: React.FC<RMASelectProductTableProps> = ({
                     </div>
                   ) : (
                     <span className="text-grey-40">
-                      {item.quantity - item.returned_quantity}
+                      {item.quantity - (item.returned_quantity || 0)}
                     </span>
                   )}
                 </Table.Cell>

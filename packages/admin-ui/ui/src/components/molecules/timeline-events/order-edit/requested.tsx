@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { useAdminNotifications } from "medusa-react"
+import { useAdminNotifications } from "@medusajs/client-react"
 
 import { OrderEditRequestedEvent } from "../../../../hooks/use-build-timeline"
 import MailIcon from "../../../fundamentals/icons/mail-icon"

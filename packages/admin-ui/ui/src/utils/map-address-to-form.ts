@@ -1,4 +1,4 @@
-import { Address } from "@medusajs/medusa"
+import { Address } from "@medusajs/client-types"
 import { AddressPayload } from "../components/templates/address-form"
 import { isoAlpha2Countries } from "./countries"
 

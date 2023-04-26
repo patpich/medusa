@@ -1,5 +1,4 @@
-import { LineItem } from "@medusajs/medusa"
-import { ReservationItemDTO } from "@medusajs/types"
+import { LineItem, ReservationItemDTO } from "@medusajs/client-types"
 
 import ImagePlaceholder from "../../../../components/fundamentals/image-placeholder"
 import { formatAmountWithSymbol } from "../../../../utils/prices"

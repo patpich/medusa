@@ -3,7 +3,7 @@ import {
   AdminPostDraftOrdersReq,
   AdminPostOrdersOrderReq,
   Country,
-} from "@medusajs/medusa"
+} from "@medusajs/client-types"
 import { MutateOptions } from "@tanstack/react-query"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"

@@ -1,7 +1,10 @@
-import { useAdminVariants, useAdminVariantsInventory } from "medusa-react"
+import {
+  useAdminVariants,
+  useAdminVariantsInventory,
+} from "@medusajs/client-react"
 import React, { useEffect, useMemo, useState } from "react"
 import { usePagination, useRowSelect, useTable } from "react-table"
-import { InventoryLevelDTO, ProductVariant } from "@medusajs/medusa"
+import { InventoryLevelDTO, ProductVariant } from "@medusajs/client-types"
 import clsx from "clsx"
 import pluralize from "pluralize"
 import { useDebounce } from "../../../hooks/use-debounce"

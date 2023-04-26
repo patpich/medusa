@@ -1,4 +1,4 @@
-import { AdminAnalyticsConfigRes } from "@medusajs/medusa"
+import { AdminAnalyticsConfigRes } from "@medusajs/client-types"
 import { AnalyticsBrowser } from "@segment/analytics-next"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import axios from "axios"

@@ -1,7 +1,9 @@
-import { ClaimItem, LineItem, Order } from "@medusajs/medusa"
+import { ClaimItem, LineItem, Order, SetRelation } from "@medusajs/client-types"
+
+type OrderWithRelations = SetRelation<Order, "items">
 
 export const getAllReturnableItems = (
-  order: Omit<Order, "beforeInserts">,
+  order: OrderWithRelations,
   isClaim: boolean
 ) => {
   let orderItems = order.items.reduce(
@@ -9,7 +11,7 @@ export const getAllReturnableItems = (
       map.set(obj.id, {
         ...obj,
       }),
-    new Map<string, Omit<LineItem, "beforeInsert">>()
+    new Map<string, LineItem>()
   )
 
   let claimedItems: ClaimItem[] = []
@@ -47,7 +49,7 @@ export const getAllReturnableItems = (
           continue
         }
 
-        orderItems = swap.additional_items.reduce(
+        orderItems = (swap.additional_items || []).reduce(
           (map, obj) =>
             map.set(obj.id, {
               ...obj,

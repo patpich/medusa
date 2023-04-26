@@ -1,5 +1,5 @@
-import { Currency } from "@medusajs/medusa"
-import { useAdminCurrencies, useAdminUpdateStore } from "medusa-react"
+import { Currency } from "@medusajs/client-types"
+import { useAdminCurrencies, useAdminUpdateStore } from "@medusajs/client-react"
 import React, { useContext, useState } from "react"
 import { usePagination, useRowSelect, useSortBy, useTable } from "react-table"
 import Button from "../../../../../components/fundamentals/button"

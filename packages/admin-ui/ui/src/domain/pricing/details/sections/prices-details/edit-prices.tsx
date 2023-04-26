@@ -1,6 +1,6 @@
-import { Product } from "@medusajs/medusa"
+import { Product } from "@medusajs/client-types"
 import { debounce } from "lodash"
-import { useAdminPriceListProducts } from "medusa-react"
+import { useAdminPriceListProducts } from "@medusajs/client-react"
 import * as React from "react"
 import Tooltip from "../../../../../components/atoms/tooltip"
 import EditIcon from "../../../../../components/fundamentals/icons/edit-icon"

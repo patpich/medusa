@@ -7,13 +7,15 @@ export type DiscountFormType = {
   }
 }
 
-export enum DiscountConditionType {
-  PRODUCTS = "products",
-  PRODUCT_TYPES = "product_types",
-  PRODUCT_COLLECTIONS = "product_collections",
-  PRODUCT_TAGS = "product_tags",
-  CUSTOMER_GROUPS = "customer_groups",
-}
+export const DiscountConditionType = {
+  PRODUCTS: "products",
+  PRODUCT_TYPES: "product_types",
+  PRODUCT_COLLECTIONS: "product_collections",
+  PRODUCT_TAGS: "product_tags",
+  CUSTOMER_GROUPS: "customer_groups",
+} as const
+export type DiscountConditionType =
+  typeof DiscountConditionType[keyof typeof DiscountConditionType]
 
 export type ConditionPayload = {
   id?: string
@@ -28,10 +30,12 @@ export type DiscountConditionRecord = {
   customer_groups: ConditionPayload | null
 }
 
-export enum DiscountConditionOperator {
-  IN = "in",
-  NOT_IN = "not_in",
-}
+export const DiscountConditionOperator = {
+  IN: "in",
+  NOT_IN: "not_in",
+} as const
+export type DiscountConditionOperator =
+  typeof DiscountConditionOperator[keyof typeof DiscountConditionOperator]
 
 export type CreateConditionProps = {
   type: DiscountConditionType
@@ -54,16 +58,19 @@ export type ConditionMap = {
   product_types: CondtionMapItem
 }
 
-export enum AllocationType {
-  ITEM = "item",
-  TOTAL = "total",
-}
+export const AllocationType = {
+  ITEM: "item",
+  TOTAL: "total",
+} as const
+export type AllocationType = typeof AllocationType[keyof typeof AllocationType]
 
-export enum DiscountRuleType {
-  FIXED = "fixed",
-  PERCENTAGE = "percentage",
-  FREE_SHIPPING = "free_shipping",
-}
+export const DiscountRuleType = {
+  FIXED: "fixed",
+  PERCENTAGE: "percentage",
+  FREE_SHIPPING: "free_shipping",
+} as const
+export type DiscountRuleType =
+  typeof DiscountRuleType[keyof typeof DiscountRuleType]
 
 export type UpdateConditionProps = {
   type:
