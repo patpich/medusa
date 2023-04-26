@@ -1,5 +1,5 @@
-import { Discount } from "@medusajs/medusa"
-import { useAdminUpdateDiscount } from "medusa-react"
+import { Discount } from "@medusajs/client-types"
+import { useAdminUpdateDiscount } from "@medusajs/client-react"
 import React, { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import DiscountConfigurationForm, {
@@ -38,8 +38,8 @@ const EditConfigurations: React.FC<EditConfigurationsProps> = ({
   const onSubmit = handleSubmit((data) => {
     mutate(
       {
-        starts_at: data.config.starts_at ?? new Date(),
-        ends_at: data.config.ends_at,
+        starts_at: (data.config.starts_at ?? new Date()).toISOString(),
+        ends_at: data.config.ends_at?.toISOString(),
         usage_limit:
           data.config.usage_limit && data.config.usage_limit > 0
             ? data.config.usage_limit

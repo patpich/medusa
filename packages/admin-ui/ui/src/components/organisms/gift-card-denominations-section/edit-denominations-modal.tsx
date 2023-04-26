@@ -1,10 +1,15 @@
-import { MoneyAmount, ProductVariant, Store } from "@medusajs/medusa"
+import {
+  MoneyAmount,
+  ProductVariant,
+  SetRelation,
+  Store,
+} from "@medusajs/client-types"
 import { useQueryClient } from "@tanstack/react-query"
 import {
   adminProductKeys,
   useAdminStore,
   useAdminUpdateVariant,
-} from "medusa-react"
+} from "@medusajs/client-react"
 import { useCallback, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import useNotification from "../../../hooks/use-notification"
@@ -19,7 +24,7 @@ import Modal from "../../molecules/modal"
 type EditDenominationsModalProps = {
   open: boolean
   onClose: () => void
-  denomination: ProductVariant
+  denomination: SetRelation<ProductVariant, "prices">
 }
 
 type EditDenominationModalFormType = {
@@ -142,7 +147,10 @@ const EditDenominationsModal = ({
   )
 }
 
-const getDefaultValues = (store: Store | undefined, prices: MoneyAmount[]) => {
+const getDefaultValues = (
+  store: SetRelation<Store, "currencies"> | undefined,
+  prices: MoneyAmount[]
+) => {
   if (!store) {
     return undefined
   }

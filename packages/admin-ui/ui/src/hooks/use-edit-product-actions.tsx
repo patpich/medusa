@@ -2,8 +2,8 @@ import {
   AdminPostProductsProductReq,
   AdminPostProductsProductVariantsReq,
   AdminPostProductsProductVariantsVariantReq,
-  Product,
-} from "@medusajs/medusa"
+  AdminProductsRes,
+} from "@medusajs/client-types"
 import {
   useAdminCreateVariant,
   useAdminDeleteProduct,
@@ -11,7 +11,7 @@ import {
   useAdminProduct,
   useAdminUpdateProduct,
   useAdminUpdateVariant,
-} from "medusa-react"
+} from "@medusajs/client-react"
 
 import { useNavigate } from "react-router-dom"
 import { getErrorMessage } from "../utils/error-messages"
@@ -50,7 +50,7 @@ const useEditProductActions = (productId: string) => {
 
   const onAddVariant = (
     payload: AdminPostProductsProductVariantsReq,
-    onSuccess: (variantRes: Product) => void,
+    onSuccess: (variantRes: AdminProductsRes["product"]) => void,
     successMessage = "Variant was created successfully"
   ) => {
     addVariant.mutate(payload, {
@@ -95,18 +95,21 @@ const useEditProductActions = (productId: string) => {
     onSuccess?: () => void,
     successMessage = "Variant was succesfully deleted"
   ) => {
-    deleteVariant.mutate(variantId, {
-      onSuccess: () => {
-        notification("Success", successMessage, "success")
-        getProduct.refetch()
-        if (onSuccess) {
-          onSuccess()
-        }
-      },
-      onError: (err) => {
-        notification("Error", getErrorMessage(err), "error")
-      },
-    })
+    deleteVariant.mutate(
+      { variant_id: variantId },
+      {
+        onSuccess: () => {
+          notification("Success", successMessage, "success")
+          getProduct.refetch()
+          if (onSuccess) {
+            onSuccess()
+          }
+        },
+        onError: (err) => {
+          notification("Error", getErrorMessage(err), "error")
+        },
+      }
+    )
   }
 
   const onUpdate = (

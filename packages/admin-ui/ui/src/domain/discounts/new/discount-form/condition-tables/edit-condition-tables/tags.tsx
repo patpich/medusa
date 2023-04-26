@@ -1,4 +1,4 @@
-import { useAdminProductTags } from "medusa-react"
+import { useAdminProductTags } from "@medusajs/client-react"
 import { useState } from "react"
 import Spinner from "../../../../../../components/atoms/spinner"
 import Modal from "../../../../../../components/molecules/modal"

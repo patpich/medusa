@@ -1,5 +1,5 @@
-import { Discount } from "@medusajs/medusa"
-import { useAdminUpdateDiscount } from "medusa-react"
+import { Discount, SetRelation } from "@medusajs/client-types"
+import { useAdminUpdateDiscount } from "@medusajs/client-react"
 import React, { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import DiscountGeneralForm, {
@@ -16,8 +16,10 @@ import useNotification from "../../../../hooks/use-notification"
 import { getErrorMessage } from "../../../../utils/error-messages"
 import { nestedForm } from "../../../../utils/nested-form"
 
+type DiscountWithRelations = SetRelation<Discount, "rule" | "regions">
+
 type EditGeneralProps = {
-  discount: Discount
+  discount: DiscountWithRelations
   open: boolean
   onClose: () => void
 }
@@ -50,7 +52,7 @@ const EditGeneral: React.FC<EditGeneralProps> = ({
           id: discount.rule.id,
           description: data.general.description,
           value: data.general.value,
-          allocation: discount.rule.allocation,
+          allocation: discount.rule.allocation ?? undefined,
         },
         metadata: getSubmittableMetadata(data.metadata),
       },
@@ -122,11 +124,13 @@ const EditGeneral: React.FC<EditGeneralProps> = ({
   )
 }
 
-const getDefaultValues = (discount: Discount): GeneralForm | undefined => {
+const getDefaultValues = (
+  discount: DiscountWithRelations
+): GeneralForm | undefined => {
   return {
     general: {
       code: discount.code,
-      description: discount.rule.description,
+      description: discount.rule.description ?? "",
       region_ids: discount.regions.map((r) => ({
         label: r.name,
         value: r.id,

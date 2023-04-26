@@ -1,6 +1,6 @@
 import { sortBy } from "lodash"
 
-import { SalesChannel } from "@medusajs/medusa"
+import { SalesChannel } from "@medusajs/client-types"
 
 /**
  * Customers Associated Groups props

@@ -1,4 +1,4 @@
-import { PricedVariant } from "@medusajs/medusa/dist/types/pricing"
+import { PricedVariant } from "@medusajs/client-types"
 import { flexRender, Table as Instance } from "@tanstack/react-table"
 import { useEffect, useState } from "react"
 import LoadingContainer from "../../../../../components/atoms/loading-container"

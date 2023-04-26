@@ -1,4 +1,4 @@
-import { useAdminReturnReasons } from "medusa-react"
+import { useAdminReturnReasons } from "@medusajs/client-react"
 import { useState } from "react"
 import BackButton from "../../../components/atoms/back-button"
 import Spinner from "../../../components/atoms/spinner"
@@ -67,7 +67,7 @@ const ReturnReasons = () => {
                   <RadioGroup.Item
                     key={reason.id}
                     label={reason.label}
-                    description={reason.description}
+                    description={reason.description || undefined}
                     className="mt-xsmall"
                     value={reason.value}
                   />

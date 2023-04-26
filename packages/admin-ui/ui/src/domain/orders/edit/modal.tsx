@@ -1,12 +1,17 @@
 import React, { useContext, useEffect, useRef, useState } from "react"
-import { Order, OrderEdit, ProductVariant } from "@medusajs/medusa"
+import {
+  Order,
+  OrderEdit,
+  ProductVariant,
+  SetRelation,
+} from "@medusajs/client-types"
 import {
   useAdminCreateOrderEdit,
   useAdminDeleteOrderEdit,
   useAdminOrderEditAddLineItem,
   useAdminRequestOrderEditConfirmation,
   useAdminUpdateOrderEdit,
-} from "medusa-react"
+} from "@medusajs/client-react"
 import clsx from "clsx"
 
 import LayeredModal, {
@@ -134,9 +139,14 @@ export function AddProductVariant(props: AddProductVariantProps) {
   )
 }
 
+type OrderEditWithRelations = SetRelation<
+  OrderEdit,
+  "changes" | "items" | "total"
+>
+
 type OrderEditModalProps = {
   close: () => void
-  orderEdit: OrderEdit
+  orderEdit: OrderEditWithRelations
   currencyCode: string
   regionId: string
   customerId: string
@@ -241,7 +251,7 @@ function OrderEditModal(props: OrderEditModalProps) {
     displayItems = displayItems.filter(
       (i) =>
         i.title.toLowerCase().includes(filterTerm) ||
-        i.variant?.sku.toLowerCase().includes(filterTerm)
+        i.variant?.sku?.toLowerCase().includes(filterTerm)
     )
   }
 
@@ -383,8 +393,13 @@ function OrderEditModal(props: OrderEditModalProps) {
   )
 }
 
+type OrderWithRelations = SetRelation<
+  Order,
+  "total" | "subtotal" | "paid_total" | "refunded_total"
+>
+
 type OrderEditModalContainerProps = {
-  order: Order
+  order: OrderWithRelations
 }
 
 let isRequestRunningFlag = false

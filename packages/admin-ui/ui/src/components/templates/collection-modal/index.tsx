@@ -1,8 +1,8 @@
-import { ProductCollection } from "@medusajs/medusa"
+import { ProductCollection } from "@medusajs/client-types"
 import {
   useAdminCreateCollection,
   useAdminUpdateCollection,
-} from "medusa-react"
+} from "@medusajs/client-react"
 import React, { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import useNotification from "../../../hooks/use-notification"

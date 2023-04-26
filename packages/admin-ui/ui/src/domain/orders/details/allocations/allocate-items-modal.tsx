@@ -1,13 +1,19 @@
 import { Controller, useForm, useWatch } from "react-hook-form"
-import { LineItem } from "@medusajs/medusa"
+import {
+  LineItem,
+  Merge,
+  Order,
+  ReservationItemDTO,
+  SetRelation,
+} from "@medusajs/client-types"
 import { NestedForm, nestedForm } from "../../../../utils/nested-form"
 import React, { useEffect, useMemo } from "react"
 import {
   useAdminCreateReservation,
   useAdminStockLocations,
   useAdminVariantsInventory,
-  useMedusa,
-} from "medusa-react"
+  useMedusaAdmin,
+} from "@medusajs/client-react"
 
 import Button from "../../../../components/fundamentals/button"
 import CrossIcon from "../../../../components/fundamentals/icons/cross-icon"
@@ -20,7 +26,8 @@ import { getErrorMessage } from "../../../../utils/error-messages"
 import { getFulfillableQuantity } from "../create-fulfillment/item-table"
 import { sum } from "lodash"
 import useNotification from "../../../../hooks/use-notification"
-import { ReservationItemDTO } from "@medusajs/types"
+
+type LineItemWithRelations = SetRelation<LineItem, "variant">
 
 type AllocationModalFormData = {
   location?: { label: string; value: string }
@@ -28,7 +35,7 @@ type AllocationModalFormData = {
 }
 
 type AllocateItemsModalProps = {
-  items: LineItem[]
+  items: LineItemWithRelations[]
   reservationItemsMap: Record<string, ReservationItemDTO[]>
   close: () => void
 }
@@ -39,7 +46,7 @@ const AllocateItemsModal: React.FC<AllocateItemsModalProps> = ({
   reservationItemsMap,
 }) => {
   const { mutateAsync: createReservation } = useAdminCreateReservation()
-  const { client: medusaClient } = useMedusa()
+  const { client } = useMedusaAdmin()
   const notification = useNotification()
 
   const form = useForm<AllocationModalFormData>({
@@ -90,7 +97,7 @@ const AllocateItemsModal: React.FC<AllocateItemsModalProps> = ({
       await Promise.all(
         results.map(async ({ result }) => {
           if (result) {
-            await medusaClient.admin.reservations.delete(result.id)
+            await client.reservations.delete(result.id)
           }
         })
       )
@@ -209,7 +216,7 @@ export type AllocationLineItemForm = {
 
 export const AllocationLineItem: React.FC<{
   form: NestedForm<AllocationLineItemForm>
-  item: LineItem
+  item: LineItemWithRelations
   locationId?: string
   reservedQuantity?: number
   compact?: boolean
@@ -247,7 +254,7 @@ export const AllocationLineItem: React.FC<{
     }
   }, [variant, locationId, isLoading])
 
-  if (!variant.inventory?.length) {
+  if (!variant?.inventory?.length) {
     return null
   }
 

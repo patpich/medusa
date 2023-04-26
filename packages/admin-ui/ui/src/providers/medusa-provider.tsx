@@ -1,4 +1,4 @@
-import { MedusaProvider as Provider } from "medusa-react"
+import { MedusaAdminProvider as Provider } from "@medusajs/client-react"
 import { PropsWithChildren } from "react"
 import { MEDUSA_BACKEND_URL } from "../constants/medusa-backend-url"
 import { queryClient } from "../constants/query-client"

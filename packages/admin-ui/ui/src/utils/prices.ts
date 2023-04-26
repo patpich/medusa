@@ -1,5 +1,10 @@
-import { LineItemTaxLine, MoneyAmount, Order, Region } from "@medusajs/medusa"
-import { PricedVariant } from "@medusajs/medusa/dist/types/pricing"
+import {
+  LineItemTaxLine,
+  MoneyAmount,
+  Order,
+  PricedVariant,
+  Region,
+} from "@medusajs/client-types"
 import { currencies } from "./currencies"
 
 export function normalizeAmount(currency: string, amount: number): number {
@@ -21,11 +26,11 @@ export const extractUnitPrice = (
   withTax = true
 ) => {
   let itemPrice = item.original_price
-  let includesTax = item.original_price_includes_tax
+  let includesTax = item.original_price_incl_tax
   let taxRate = item.original_tax
 
   if (itemPrice === undefined) {
-    const regionPrice = item.prices.find(
+    const regionPrice = (item.prices || []).find(
       (p) => p.currency_code === region.currency_code
     )
 
@@ -136,8 +141,8 @@ export function formatAmountWithSymbol({
 }
 
 export const extractNormalizedAmount = (
-  amounts: Omit<MoneyAmount, "beforeInsert">[],
-  order: Omit<Order, "beforeInsert">
+  amounts: MoneyAmount[],
+  order: Order
 ) => {
   let amount = amounts.find((ma) => ma.region_id === order.region_id)
 

@@ -1,5 +1,5 @@
 import { Controller, useFieldArray } from "react-hook-form"
-import { InventoryLevelDTO, StockLocationDTO } from "@medusajs/types"
+import { InventoryLevelDTO, StockLocationDTO } from "@medusajs/client-types"
 
 import BuildingsIcon from "../../../../fundamentals/icons/buildings-icon"
 import Button from "../../../../fundamentals/button"
@@ -13,7 +13,7 @@ import React from "react"
 import Switch from "../../../../atoms/switch"
 import clsx from "clsx"
 import { sum } from "lodash"
-import { useAdminStockLocations } from "medusa-react"
+import { useAdminStockLocations } from "@medusajs/client-react"
 import { useFeatureFlag } from "../../../../../providers/feature-flag-provider"
 
 export type VariantStockFormType = {

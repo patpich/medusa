@@ -1,4 +1,4 @@
-import { useAdminGetDiscountCondition } from "medusa-react"
+import { useAdminGetDiscountCondition } from "@medusajs/client-react"
 import React, { useEffect, useMemo, useState } from "react"
 import Badge from "../../../../../../components/fundamentals/badge"
 import EditIcon from "../../../../../../components/fundamentals/icons/edit-icon"
@@ -72,7 +72,7 @@ const ConditionItem = <Type extends DiscountConditionType>({
               ...prevConditions.products,
               id: discount_condition.id,
               operator: discount_condition.operator,
-              items: discount_condition.products.map((p) => ({
+              items: (discount_condition.products || []).map((p) => ({
                 id: p.id,
                 label: p.title,
               })),
@@ -88,10 +88,12 @@ const ConditionItem = <Type extends DiscountConditionType>({
               ...prevConditions.product_collections,
               id: discount_condition.id,
               operator: discount_condition.operator,
-              items: discount_condition.product_collections.map((p) => ({
-                id: p.id,
-                label: p.title,
-              })),
+              items: (discount_condition.product_collections || []).map(
+                (p) => ({
+                  id: p.id,
+                  label: p.title,
+                })
+              ),
             },
           }
         })
@@ -104,7 +106,7 @@ const ConditionItem = <Type extends DiscountConditionType>({
               ...prevConditions.product_tags,
               id: discount_condition.id,
               operator: discount_condition.operator,
-              items: discount_condition.product_tags.map((p) => ({
+              items: (discount_condition.product_tags || []).map((p) => ({
                 id: p.id,
                 label: p.value,
               })),
@@ -120,7 +122,7 @@ const ConditionItem = <Type extends DiscountConditionType>({
               ...prevConditions.customer_groups,
               id: discount_condition.id,
               operator: discount_condition.operator,
-              items: discount_condition.customer_groups.map((p) => ({
+              items: (discount_condition.customer_groups || []).map((p) => ({
                 id: p.id,
                 label: p.name,
               })),
@@ -136,7 +138,7 @@ const ConditionItem = <Type extends DiscountConditionType>({
               ...prevConditions.product_types,
               id: discount_condition.id,
               operator: discount_condition.operator,
-              items: discount_condition.product_types.map((p) => ({
+              items: (discount_condition.product_types || []).map((p) => ({
                 id: p.id,
                 label: p.value,
               })),

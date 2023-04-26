@@ -4,7 +4,7 @@ import {
   ProductCollection,
   ProductTag,
   ProductType,
-} from "@medusajs/medusa"
+} from "@medusajs/client-types"
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import {
   Column,

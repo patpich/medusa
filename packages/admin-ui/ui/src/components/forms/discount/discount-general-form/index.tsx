@@ -1,7 +1,8 @@
 import clsx from "clsx"
-import { useAdminRegions } from "medusa-react"
+import { useAdminRegions } from "@medusajs/client-react"
 import { useMemo } from "react"
 import { Controller, useWatch } from "react-hook-form"
+import { DiscountRuleType } from "../../../../domain/discounts/types"
 import { Option } from "../../../../types/shared"
 import FormValidator from "../../../../utils/form-validator"
 import { NestedForm } from "../../../../utils/nested-form"
@@ -15,12 +16,6 @@ import PriceFormInput from "../../general/prices-form/price-form-input"
 
 type DiscountRegionOption = Option & {
   currency_code: string
-}
-
-enum DiscountRuleType {
-  FIXED = "fixed",
-  PERCENTAGE = "percentage",
-  FREE_SHIPPING = "free_shipping",
 }
 
 export type DiscountGeneralFormType = {

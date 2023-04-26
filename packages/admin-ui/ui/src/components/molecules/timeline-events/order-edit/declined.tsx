@@ -1,4 +1,8 @@
-import { useAdminCustomer, useAdminOrderEdit, useAdminUser } from "medusa-react"
+import {
+  useAdminCustomer,
+  useAdminOrderEdit,
+  useAdminUser,
+} from "@medusajs/client-react"
 import React from "react"
 
 import { OrderEditEvent } from "../../../../hooks/use-build-timeline"
@@ -20,9 +24,13 @@ const EditDeclined: React.FC<EditDeclinedProps> = ({ event }) => {
     enabled: declinedByAdmin && !!event.edit.declined_by,
   })
 
-  const { customer } = useAdminCustomer(event.edit.declined_by as string, {
-    enabled: !declinedByAdmin && !!event.edit.declined_by,
-  })
+  const { customer } = useAdminCustomer(
+    event.edit.declined_by as string,
+    {},
+    {
+      enabled: !declinedByAdmin && !!event.edit.declined_by,
+    }
+  )
 
   const note = orderEdit?.declined_reason
 

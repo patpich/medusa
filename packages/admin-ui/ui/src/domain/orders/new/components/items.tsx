@@ -1,4 +1,4 @@
-import { Product, ProductVariant, Region } from "@medusajs/medusa"
+import { Product, ProductVariant, Region } from "@medusajs/client-types"
 import clsx from "clsx"
 import React, { useContext, useEffect, useState } from "react"
 import { Controller } from "react-hook-form"
@@ -20,7 +20,7 @@ import {
 import RMASelectProductSubModal from "../../details/rma-sub-modals/products"
 import { useNewOrderForm } from "../form"
 import CustomItemSubModal from "./custom-item-sub-modal"
-import { useMedusa } from "medusa-react"
+import { useMedusaAdmin } from "@medusajs/client-react"
 
 const Items = () => {
   const { enableNextPage, disableNextPage, nextStepEnabled } =
@@ -31,7 +31,7 @@ const Items = () => {
     form: { control, register, setValue },
   } = useNewOrderForm()
 
-  const { client } = useMedusa()
+  const { client } = useMedusaAdmin()
 
   const { fields, append, remove, update } = items
 
@@ -47,7 +47,7 @@ const Items = () => {
 
     const variantIds = itemsToAdd.map((v) => v.id)
 
-    const { variants: newVariants } = await client.admin.variants.list({
+    const { variants: newVariants } = await client.variants.list({
       id: variantIds,
       region_id: region?.id,
     })

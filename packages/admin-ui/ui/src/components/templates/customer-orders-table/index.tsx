@@ -1,12 +1,14 @@
-import { Order } from "@medusajs/medusa"
-import { useAdminOrders } from "medusa-react"
+import { Order, SetRelation } from "@medusajs/client-types"
+import { useAdminOrders } from "@medusajs/client-react"
 import { useState } from "react"
-import { useTable, usePagination } from "react-table"
+import { usePagination, useTable } from "react-table"
 import RefreshIcon from "../../fundamentals/icons/refresh-icon"
 import Table from "../../molecules/table"
 import TableContainer from "../../organisms/table-container"
 import TransferOrdersModal from "../transfer-orders-modal"
 import { useCustomerOrdersColumns } from "./use-customer-orders-columns"
+
+type OrderWithRelations = SetRelation<Order, "customer">
 
 const LIMIT = 15
 
@@ -16,7 +18,7 @@ type Props = {
 
 const CustomerOrdersTable = ({ id }: Props) => {
   const [selectedOrderForTransfer, setSelectedOrderForTransfer] =
-    useState<Order | null>(null)
+    useState<OrderWithRelations | null>(null)
 
   const [offset, setOffset] = useState(0)
   const { orders, isLoading, count } = useAdminOrders(
@@ -121,7 +123,9 @@ const CustomerOrdersTable = ({ id }: Props) => {
                       label: "Transfer order",
                       icon: <RefreshIcon size={"20"} />,
                       onClick: () => {
-                        setSelectedOrderForTransfer(row.original as Order)
+                        setSelectedOrderForTransfer(
+                          row.original as OrderWithRelations
+                        )
                       },
                     },
                   ]}

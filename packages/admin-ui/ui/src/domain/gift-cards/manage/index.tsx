@@ -1,5 +1,4 @@
-import { Product } from "@medusajs/medusa"
-import { useAdminProducts } from "medusa-react"
+import { useAdminProducts } from "@medusajs/client-react"
 import { useNavigate } from "react-router-dom"
 import BackButton from "../../../components/atoms/back-button"
 import Spinner from "../../../components/atoms/spinner"
@@ -23,7 +22,7 @@ const Manage = () => {
     }
   )
 
-  const giftCard = products?.[0] as Product | undefined
+  const giftCard = products?.[0]
 
   if (!giftCard) {
     return (

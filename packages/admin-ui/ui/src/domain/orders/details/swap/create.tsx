@@ -3,14 +3,15 @@ import {
   Order,
   ProductVariant,
   ReturnReason,
+  SetRelation,
   StockLocationDTO,
-} from "@medusajs/medusa"
-import { useAdminStockLocations } from "medusa-react"
+} from "@medusajs/client-types"
 import {
   useAdminCreateSwap,
   useAdminOrder,
   useAdminShippingOptions,
-} from "medusa-react"
+  useAdminStockLocations,
+} from "@medusajs/client-react"
 import React, { useContext, useEffect, useMemo, useState } from "react"
 import Spinner from "../../../../components/atoms/spinner"
 import Button from "../../../../components/fundamentals/button"
@@ -32,8 +33,10 @@ import { formatAmountWithSymbol } from "../../../../utils/prices"
 import RMASelectProductSubModal from "../rma-sub-modals/products"
 import { getAllReturnableItems } from "../utils/create-filtering"
 
+type OrderWithRelations = SetRelation<Order, "items">
+
 type SwapMenuProps = {
-  order: Omit<Order, "beforeInsert">
+  order: OrderWithRelations
   onDismiss: () => void
 }
 
@@ -50,7 +53,7 @@ type ReturnRecord = Record<
   }
 >
 
-type SelectProduct = Omit<ProductVariant & { quantity: number }, "beforeInsert">
+type SelectProduct = ProductVariant & { quantity: number }
 
 const SwapMenu: React.FC<SwapMenuProps> = ({ order, onDismiss }) => {
   const { refetch } = useAdminOrder(order.id)
@@ -130,12 +133,12 @@ const SwapMenu: React.FC<SwapMenuProps> = ({ order, onDismiss }) => {
 
   const additionalTotal = useMemo(() => {
     return itemsToAdd.reduce((acc, next) => {
-      let amount = next.prices.find(
+      let amount = (next.prices || []).find(
         (ma) => ma.region_id === order.region_id
       )?.amount
 
       if (!amount) {
-        amount = next.prices.find(
+        amount = (next.prices || []).find(
           (ma) => ma.currency_code === order.currency_code
         )?.amount
       }

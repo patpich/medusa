@@ -1,10 +1,10 @@
-import { Product, SalesChannel } from "@medusajs/medusa"
+import { Product, SalesChannel } from "@medusajs/client-types"
 import clsx from "clsx"
 import {
   useAdminAddProductsToSalesChannel,
   useAdminDeleteProductsFromSalesChannel,
   useAdminProducts,
-} from "medusa-react"
+} from "@medusajs/client-react"
 import React, {
   forwardRef,
   useEffect,

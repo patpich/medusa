@@ -1,4 +1,4 @@
-import { Product } from "@medusajs/medusa"
+import { Product, SetRelation } from "@medusajs/client-types"
 import useToggleState from "../../../hooks/use-toggle-state"
 import PlusIcon from "../../fundamentals/icons/plus-icon"
 import Section from "../section"
@@ -6,7 +6,7 @@ import AddDenominationModal from "./add-denominations-modal"
 import DenominationsTable from "./denominations-table"
 
 type GiftCardDenominationsSectionProps = {
-  giftCard: Product
+  giftCard: SetRelation<Product, "variants" | "options">
 }
 
 const GiftCardDenominationsSection = ({

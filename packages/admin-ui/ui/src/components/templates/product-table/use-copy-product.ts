@@ -1,6 +1,6 @@
-import { AdminPostProductsReq, Product } from "@medusajs/medusa"
+import { AdminPostProductsReq, AdminProductsRes } from "@medusajs/client-types"
 import { omit } from "lodash"
-import { useAdminCreateProduct } from "medusa-react"
+import { useAdminCreateProduct } from "@medusajs/client-react"
 import { useNavigate } from "react-router-dom"
 import useNotification from "../../../hooks/use-notification"
 import { ProductStatus } from "../../../types/shared"
@@ -38,7 +38,7 @@ const useCopyProduct = () => {
   const notification = useNotification()
   const { mutate } = useAdminCreateProduct()
 
-  const handleCopyProduct = (product: Product) => {
+  const handleCopyProduct = (product: AdminProductsRes["product"]) => {
     const {
       variants,
       options,
@@ -103,7 +103,7 @@ const useCopyProduct = () => {
           variantBase.prices = prices.map((price) => ({
             amount: price.amount,
             currency_code: !price.region_id ? price.currency_code : undefined,
-            region_id: price.region_id,
+            region_id: price.region_id || undefined,
           }))
         }
 

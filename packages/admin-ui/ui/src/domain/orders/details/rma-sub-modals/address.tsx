@@ -1,5 +1,5 @@
-import { Order } from "@medusajs/medusa"
-import { useAdminRegion } from "medusa-react"
+import { Order } from "@medusajs/client-types"
+import { useAdminRegion } from "@medusajs/client-react"
 import React, { useContext, useEffect, useMemo } from "react"
 import { Controller, useForm } from "react-hook-form"
 import Button from "../../../../components/fundamentals/button"
@@ -13,7 +13,7 @@ import { AddressPayload } from "../claim/create"
 type RMAEditAddressSubModalProps = {
   onSubmit: (address: AddressPayload) => void
   address: AddressPayload
-  order: Omit<Order, "beforeInsert">
+  order: Order
 }
 
 type RMAEditAddressSubModalFormData = {

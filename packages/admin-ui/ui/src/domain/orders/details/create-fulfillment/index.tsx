@@ -4,8 +4,9 @@ import {
   AdminPostOrdersOrderSwapsSwapFulfillmentsReq,
   ClaimOrder,
   Order,
+  SetRelation,
   Swap,
-} from "@medusajs/medusa"
+} from "@medusajs/client-types"
 import CreateFulfillmentItemsTable, {
   getFulfillableQuantity,
 } from "./item-table"
@@ -18,7 +19,7 @@ import {
   useAdminFulfillClaim,
   useAdminFulfillSwap,
   useAdminStockLocations,
-} from "medusa-react"
+} from "@medusajs/client-react"
 
 import Button from "../../../../components/fundamentals/button"
 import CrossIcon from "../../../../components/fundamentals/icons/cross-icon"
@@ -30,11 +31,18 @@ import { getErrorMessage } from "../../../../utils/error-messages"
 import { useFeatureFlag } from "../../../../providers/feature-flag-provider"
 import useNotification from "../../../../hooks/use-notification"
 
+type OrderWithRelations = SetRelation<Order, "items">
+type ClaimOrderWithRelations = SetRelation<ClaimOrder, "additional_items">
+type SwapWithRelations = SetRelation<Swap, "additional_items">
+
 type CreateFulfillmentModalProps = {
   handleCancel: () => void
   address?: object
   email?: string
-  orderToFulfill: Order | ClaimOrder | Swap
+  orderToFulfill:
+    | OrderWithRelations
+    | ClaimOrderWithRelations
+    | SwapWithRelations
   orderId: string
   onComplete?: () => void
 }
@@ -51,7 +59,7 @@ const CreateFulfillmentModal: React.FC<CreateFulfillmentModalProps> = ({
     isFeatureEnabled("stockLocationService")
   const [quantities, setQuantities] = useState<Record<string, number>>(
     "items" in orderToFulfill
-      ? (orderToFulfill as Order).items.reduce((acc, next) => {
+      ? (orderToFulfill as OrderWithRelations).items.reduce((acc, next) => {
           return {
             ...acc,
             [next.id]: getFulfillableQuantity(next),

@@ -1,10 +1,12 @@
-import { Product } from "@medusajs/medusa"
+import { Product, SetRelation } from "@medusajs/client-types"
 import { useMemo } from "react"
 import { Column, HeaderGroup, Row } from "react-table"
 import SortingIcon from "../../../../../../components/fundamentals/icons/sorting-icon"
 import ImagePlaceholder from "../../../../../../components/fundamentals/image-placeholder"
 import StatusIndicator from "../../../../../../components/fundamentals/status-indicator"
 import Table from "../../../../../../components/molecules/table"
+
+type ProductWithRelations = SetRelation<Product, "variants">
 
 const getProductStatusVariant = (status: string) => {
   switch (status) {
@@ -20,7 +22,7 @@ const getProductStatusVariant = (status: string) => {
   }
 }
 
-export const ProductRow = ({ row }: { row: Row<Product> }) => {
+export const ProductRow = ({ row }: { row: Row<ProductWithRelations> }) => {
   return (
     <Table.Row {...row.getRowProps()}>
       {row.cells.map((cell) => {
@@ -54,7 +56,7 @@ export const ProductsHeader = ({
 }
 
 export const useProductColumns = () => {
-  const columns = useMemo<Column<Product>[]>(() => {
+  const columns = useMemo<Column<ProductWithRelations>[]>(() => {
     return [
       {
         Header: () => (

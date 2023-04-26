@@ -1,4 +1,4 @@
-import { Region } from "@medusajs/medusa"
+import { Region } from "@medusajs/client-types"
 import RadioGroup from "../../../../components/organisms/radio-group"
 import fulfillmentProvidersMapper from "../../../../utils/fulfillment-providers.mapper"
 import paymentProvidersMapper from "../../../../utils/payment-providers-mapper"

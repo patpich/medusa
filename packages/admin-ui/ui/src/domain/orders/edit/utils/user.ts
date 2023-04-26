@@ -1,4 +1,4 @@
-import { OrderEdit } from "@medusajs/medusa"
+import { OrderEdit } from "@medusajs/client-types"
 
 const USER_PREFIX = "usr"
 

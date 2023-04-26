@@ -1,5 +1,5 @@
-import { Order } from "@medusajs/medusa"
-import { useAdminRefundPayment } from "medusa-react"
+import { Order, SetRelation } from "@medusajs/client-types"
+import { useAdminRefundPayment } from "@medusajs/client-react"
 import { useMemo, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 
@@ -28,8 +28,10 @@ const reasonOptions = [
   { label: "Other", value: "other" },
 ]
 
+type OrderWithRelations = SetRelation<Order, "paid_total" | "refunded_total">
+
 type RefundMenuProps = {
-  order: Order
+  order: OrderWithRelations
   onDismiss: () => void
   initialAmount?: number
   initialReason: "other" | "discount"
@@ -66,7 +68,7 @@ const RefundMenu = ({
       {
         amount: data.amount,
         reason: data.reason.value,
-        no_notification: noNotification,
+        no_notification: noNotification || undefined,
         note: data.note,
       },
       {
@@ -81,7 +83,9 @@ const RefundMenu = ({
     )
   }
 
-  const isSystemPayment = order.payments.some((p) => p.provider_id === "system")
+  const isSystemPayment = (order.payments || []).some(
+    (p) => p.provider_id === "system"
+  )
 
   return (
     <Modal handleClose={onDismiss}>

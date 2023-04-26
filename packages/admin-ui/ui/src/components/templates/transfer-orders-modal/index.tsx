@@ -1,9 +1,9 @@
-import { Order } from "@medusajs/medusa"
+import { Order, SetRelation } from "@medusajs/client-types"
 import {
   useAdminCustomer,
   useAdminCustomers,
   useAdminUpdateOrder,
-} from "medusa-react"
+} from "@medusajs/client-react"
 import moment from "moment"
 import React from "react"
 import {
@@ -19,8 +19,10 @@ import Button from "../../fundamentals/button"
 import Modal from "../../molecules/modal"
 import Select from "../../molecules/select/next-select/select"
 
+type OrderWithRelations = SetRelation<Order, "customer">
+
 type TransferOrdersModalProps = {
-  order: Order
+  order: OrderWithRelations
   onDismiss: () => void
 }
 
@@ -85,8 +87,8 @@ const TransferOrdersModal: React.FC<TransferOrdersModalProps> = ({
   const getCustomerOption = (customer: {
     id: string
     email: string
-    first_name?: string
-    last_name?: string
+    first_name?: string | null
+    last_name?: string | null
   }) => {
     if (!customer) {
       return undefined
@@ -94,8 +96,8 @@ const TransferOrdersModal: React.FC<TransferOrdersModalProps> = ({
 
     const customerLabel = (c: {
       email: string
-      first_name?: string
-      last_name?: string
+      first_name?: string | null
+      last_name?: string | null
     }) => {
       if (c.first_name && c.last_name) {
         return `${c.first_name} ${c.last_name} - ${c.email}`

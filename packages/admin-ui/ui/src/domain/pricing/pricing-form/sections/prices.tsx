@@ -1,9 +1,19 @@
-import { Product } from "@medusajs/medusa"
-import { useAdminPriceListProducts } from "medusa-react"
+import {
+  Merge,
+  Product,
+  ProductVariant,
+  SetRelation,
+} from "@medusajs/client-types"
+import { useAdminPriceListProducts } from "@medusajs/client-react"
 import * as React from "react"
 import Accordion from "../../../../components/organisms/accordion"
 import { merge } from "../../details/sections/prices-details/utils"
 import ProductPrices from "./product-prices"
+
+type ProductWithRelations = Merge<
+  SetRelation<Product, "variants">,
+  { variants: SetRelation<ProductVariant, "prices">[] }
+>
 
 type PricesSectionProps = {
   isEdit?: boolean
@@ -24,8 +34,13 @@ const PricesSection = ({ isEdit = false, id }: PricesSectionProps) => {
     enabled: isEdit,
   })
 
-  const [selectedProducts, setSelectedProducts] = React.useState<Product[]>([])
-  const mergedProducts = merge(products, selectedProducts)
+  const [selectedProducts, setSelectedProducts] = React.useState<
+    ProductWithRelations[]
+  >([])
+  const mergedProducts = merge(
+    products,
+    selectedProducts
+  ) as ProductWithRelations[]
 
   return (
     <Accordion.Item

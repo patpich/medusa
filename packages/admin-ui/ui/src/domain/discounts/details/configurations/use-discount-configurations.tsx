@@ -2,13 +2,13 @@ import { ReactNode } from "react"
 
 import { ActionType } from "../../../../components/molecules/actionables"
 import ClockIcon from "../../../../components/fundamentals/icons/clock-icon"
-import { Discount } from "@medusajs/medusa"
+import { Discount } from "@medusajs/client-types"
 import TrashIcon from "../../../../components/fundamentals/icons/trash-icon"
 import { getErrorMessage } from "../../../../utils/error-messages"
 import moment from "moment"
 import { parse } from "iso8601-duration"
 import { removeNullish } from "../../../../utils/remove-nullish"
-import { useAdminUpdateDiscount } from "medusa-react"
+import { useAdminUpdateDiscount } from "@medusajs/client-react"
 import useNotification from "../../../../hooks/use-notification"
 
 type displaySetting = {
@@ -39,13 +39,17 @@ const useDiscountConfigurations = (discount: Discount) => {
 
   conditions.push({
     title: "Start date",
-    description: <DisplaySettingsDateDescription date={discount.starts_at} />,
+    description: (
+      <DisplaySettingsDateDescription date={new Date(discount.starts_at)} />
+    ),
   })
 
   if (discount.ends_at) {
     conditions.push({
       title: "End date",
-      description: <DisplaySettingsDateDescription date={discount.ends_at} />,
+      description: (
+        <DisplaySettingsDateDescription date={new Date(discount.ends_at)} />
+      ),
       actions: [
         {
           label: "Delete configuration",

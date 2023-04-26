@@ -1,12 +1,12 @@
 import { AllocationLineItemForm } from "./allocate-items-modal"
 import { Controller, useForm, useWatch } from "react-hook-form"
-import { LineItem, ReservationItemDTO } from "@medusajs/medusa"
+import { LineItem, ReservationItemDTO } from "@medusajs/client-types"
 import {
   useAdminDeleteReservation,
   useAdminStockLocations,
   useAdminUpdateReservation,
   useAdminVariantsInventory,
-} from "medusa-react"
+} from "@medusajs/client-react"
 import { useEffect, useMemo } from "react"
 
 import Button from "../../../../components/fundamentals/button"

@@ -1,4 +1,4 @@
-import { useAdminCollections } from "medusa-react"
+import { useAdminCollections } from "@medusajs/client-react"
 import React, { useEffect, useState } from "react"
 import { usePagination, useTable } from "react-table"
 import { useDebounce } from "../../../hooks/use-debounce"

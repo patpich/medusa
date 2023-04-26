@@ -1,6 +1,6 @@
-import { ShippingOption } from "@medusajs/medusa"
+import { SetRelation, ShippingOption } from "@medusajs/client-types"
 import clsx from "clsx"
-import { useAdminDeleteShippingOption } from "medusa-react"
+import { useAdminDeleteShippingOption } from "@medusajs/client-react"
 import EditIcon from "../../../../../components/fundamentals/icons/edit-icon"
 import FastDeliveryIcon from "../../../../../components/fundamentals/icons/fast-delivery-icon"
 import TrashIcon from "../../../../../components/fundamentals/icons/trash-icon"
@@ -11,8 +11,10 @@ import { getErrorMessage } from "../../../../../utils/error-messages"
 import { stringDisplayPrice } from "../../../../../utils/prices"
 import EditModal from "./edit-modal"
 
+type ShippingOptionWithRelation = SetRelation<ShippingOption, "region">
+
 type Props = {
-  option: ShippingOption
+  option: ShippingOptionWithRelation
 }
 
 enum ShippingOptionPriceType {

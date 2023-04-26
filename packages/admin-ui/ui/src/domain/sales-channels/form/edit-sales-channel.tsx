@@ -1,7 +1,7 @@
-import { useAdminUpdateSalesChannel } from "medusa-react"
+import { useAdminUpdateSalesChannel } from "@medusajs/client-react"
 import { useState } from "react"
 
-import { SalesChannel } from "@medusajs/medusa"
+import { SalesChannel } from "@medusajs/client-types"
 
 import Button from "../../../components/fundamentals/button"
 import InputField from "../../../components/molecules/input"

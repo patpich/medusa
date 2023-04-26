@@ -1,6 +1,10 @@
-import { MoneyAmount, ProductVariant } from "@medusajs/medusa"
+import {
+  MoneyAmount,
+  ProductVariant,
+  SetRelation,
+} from "@medusajs/client-types"
 import { createColumnHelper } from "@tanstack/react-table"
-import { useAdminDeleteVariant, useAdminStore } from "medusa-react"
+import { useAdminDeleteVariant, useAdminStore } from "@medusajs/client-react"
 import { useMemo } from "react"
 import useImperativeDialog from "../../../hooks/use-imperative-dialog"
 import useNotification from "../../../hooks/use-notification"
@@ -13,7 +17,7 @@ import TrashIcon from "../../fundamentals/icons/trash-icon"
 import Actionables, { ActionType } from "../../molecules/actionables"
 import EditDenominationsModal from "./edit-denominations-modal"
 
-const columnHelper = createColumnHelper<ProductVariant>()
+const columnHelper = createColumnHelper<SetRelation<ProductVariant, "prices">>()
 
 export const useDenominationColumns = () => {
   const { store } = useAdminStore()
@@ -117,7 +121,11 @@ export const useDenominationColumns = () => {
   return columns
 }
 
-const Actions = ({ original }: { original: ProductVariant }) => {
+const Actions = ({
+  original,
+}: {
+  original: SetRelation<ProductVariant, "prices">
+}) => {
   const { state, open, close } = useToggleState()
 
   const { mutateAsync } = useAdminDeleteVariant(original.product_id)
@@ -132,18 +140,21 @@ const Actions = ({ original }: { original: ProductVariant }) => {
     })
 
     if (shouldDelete) {
-      mutateAsync(original.id, {
-        onSuccess: () => {
-          notification(
-            "Denomination deleted",
-            "Denomination was successfully deleted",
-            "success"
-          )
-        },
-        onError: (error) => {
-          notification("Error", getErrorMessage(error), "error")
-        },
-      })
+      mutateAsync(
+        { variant_id: original.id },
+        {
+          onSuccess: () => {
+            notification(
+              "Denomination deleted",
+              "Denomination was successfully deleted",
+              "success"
+            )
+          },
+          onError: (error) => {
+            notification("Error", getErrorMessage(error), "error")
+          },
+        }
+      )
     }
   }
 

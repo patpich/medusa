@@ -1,5 +1,5 @@
-import { AdminGetBatchParams, BatchJob } from "@medusajs/medusa"
-import { useAdminBatchJobs } from "medusa-react"
+import { AdminGetBatchParams, BatchJob } from "@medusajs/client-types"
+import { useAdminBatchJobs } from "@medusajs/client-react"
 import React, { PropsWithChildren, useCallback, useMemo } from "react"
 
 type IPollingContext = {
@@ -57,7 +57,7 @@ export const PollingProvider = ({ children }: PropsWithChildren) => {
   } = useAdminBatchJobs(
     {
       limit: 100,
-      created_at: { gte: oneMonthAgo },
+      created_at: { gte: oneMonthAgo.toISOString() },
     } as AdminGetBatchParams,
     {
       refetchOnWindowFocus: true,

@@ -1,4 +1,4 @@
-import { Order } from "@medusajs/medusa"
+import { Order } from "@medusajs/client-types"
 import { Controller, useWatch } from "react-hook-form"
 import Button from "../../../../components/fundamentals/button"
 import CrossIcon from "../../../../components/fundamentals/icons/cross-icon"

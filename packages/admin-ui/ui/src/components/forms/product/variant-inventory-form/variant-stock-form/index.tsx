@@ -11,9 +11,9 @@ import IconBadge from "../../../../fundamentals/icon-badge"
 import InputField from "../../../../molecules/input"
 import Modal from "../../../../molecules/modal"
 import Switch from "../../../../atoms/switch"
-import { useAdminStockLocations } from "medusa-react"
+import { useAdminStockLocations } from "@medusajs/client-react"
 import { useLayeredModal } from "../../../../molecules/modal/layered-modal"
-import { InventoryLevelDTO, StockLocationDTO } from "@medusajs/types"
+import { InventoryLevelDTO, StockLocationDTO } from "@medusajs/client-types"
 
 export type VariantStockFormType = {
   manage_inventory?: boolean

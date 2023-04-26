@@ -1,4 +1,4 @@
-import { useAdminCustomer, useAdminUser } from "medusa-react"
+import { useAdminCustomer, useAdminUser } from "@medusajs/client-react"
 import React from "react"
 
 import { OrderEditEvent } from "../../../../hooks/use-build-timeline"
@@ -22,9 +22,13 @@ const EditConfirmed: React.FC<ConfirmedProps> = ({ event }) => {
     enabled: confirmedByAdmin && !!event.edit.confirmed_by,
   })
 
-  const { customer } = useAdminCustomer(event.edit.confirmed_by as string, {
-    enabled: !confirmedByAdmin && !!event.edit.confirmed_by,
-  })
+  const { customer } = useAdminCustomer(
+    event.edit.confirmed_by as string,
+    {},
+    {
+      enabled: !confirmedByAdmin && !!event.edit.confirmed_by,
+    }
+  )
 
   return (
     <EventContainer

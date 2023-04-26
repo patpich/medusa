@@ -1,5 +1,4 @@
-import { Order } from "@medusajs/medusa"
-import { PricedVariant } from "@medusajs/medusa/dist/types/pricing"
+import { Order, PricedVariant } from "@medusajs/client-types"
 import { createColumnHelper } from "@tanstack/react-table"
 import clsx from "clsx"
 import { useMemo } from "react"

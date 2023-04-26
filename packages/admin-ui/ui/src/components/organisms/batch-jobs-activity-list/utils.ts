@@ -1,4 +1,4 @@
-import { BatchJob } from "@medusajs/medusa/dist"
+import { BatchJob } from "@medusajs/client-types"
 
 export enum BatchJobOperation {
   Import = "Import",

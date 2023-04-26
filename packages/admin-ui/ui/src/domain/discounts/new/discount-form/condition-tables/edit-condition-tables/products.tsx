@@ -1,5 +1,5 @@
-import { Product } from "@medusajs/medusa"
-import { useAdminProducts } from "medusa-react"
+import { Product } from "@medusajs/client-types"
+import { useAdminProducts } from "@medusajs/client-react"
 import { useState } from "react"
 import Modal from "../../../../../../components/molecules/modal"
 import { SelectableTable } from "../../../../../../components/templates/selectable-table"

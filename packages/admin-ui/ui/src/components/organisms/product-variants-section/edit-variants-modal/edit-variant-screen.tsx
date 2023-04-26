@@ -1,8 +1,10 @@
 import {
   AdminPostProductsProductVariantsVariantReq,
+  Merge,
   Product,
   ProductVariant,
-} from "@medusajs/medusa"
+  SetRelation,
+} from "@medusajs/client-types"
 import React, { useContext, useEffect, useMemo } from "react"
 import EditFlowVariantForm, {
   EditFlowVariantFormType,
@@ -17,9 +19,17 @@ import { LayeredModalContext } from "../../../molecules/modal/layered-modal"
 import { getEditVariantDefaultValues } from "../edit-variant-modal"
 import { useEditVariantsModal } from "./use-edit-variants-modal"
 
+type ProductWithRelations = Merge<
+  SetRelation<Product, "variants" | "options">,
+  {
+    variants: SetRelation<ProductVariant, "options" | "prices">[]
+  }
+>
+type ProductVariantWithRelations = ProductWithRelations["variants"][number]
+
 type Props = {
-  variant: ProductVariant
-  product: Product
+  variant: ProductVariantWithRelations
+  product: ProductWithRelations
 }
 
 const EditVariantScreen = ({ variant, product }: Props) => {

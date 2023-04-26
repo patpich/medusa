@@ -1,4 +1,4 @@
-import { Address } from "@medusajs/medusa"
+import { Address } from "@medusajs/client-types"
 
 type FormattedAddressProps = {
   title: string

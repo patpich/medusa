@@ -1,4 +1,4 @@
-import { BatchJob } from "@medusajs/medusa/dist"
+import { BatchJob } from "@medusajs/client-types"
 import clsx from "clsx"
 import {
   useAdminBatchJob,
@@ -6,7 +6,7 @@ import {
   useAdminCreatePresignedDownloadUrl,
   useAdminDeleteFile,
   useAdminStore,
-} from "medusa-react"
+} from "@medusajs/client-react"
 import { useEffect, useMemo, useRef, useState } from "react"
 import useNotification from "../../../hooks/use-notification"
 import { bytesConverter } from "../../../utils/bytes-converter"

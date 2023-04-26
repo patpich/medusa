@@ -1,5 +1,10 @@
-import { Discount } from "@medusajs/medusa"
-import { useAdminUpdateDiscount } from "medusa-react"
+import {
+  Discount,
+  DiscountRule,
+  Merge,
+  SetRelation,
+} from "@medusajs/client-types"
+import { useAdminUpdateDiscount } from "@medusajs/client-react"
 import {
   createContext,
   ReactNode,
@@ -16,8 +21,15 @@ import {
   UpdateConditionProps,
 } from "../../../types"
 
+type DiscountWithRelations = Merge<
+  SetRelation<Discount, "rule">,
+  {
+    rule: SetRelation<DiscountRule, "conditions">
+  }
+>
+
 type ConditionsProviderProps = {
-  discount: Discount
+  discount: DiscountWithRelations
   children: ReactNode
 }
 

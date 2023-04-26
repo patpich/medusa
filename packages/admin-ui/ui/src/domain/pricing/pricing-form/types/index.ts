@@ -67,10 +67,11 @@ export enum PriceListStatus {
   DRAFT = "draft",
 }
 
-export enum PriceListType {
-  SALE = "sale",
-  OVERRIDE = "override",
-}
+export const PriceListType = {
+  SALE: "sale",
+  OVERRIDE: "override",
+} as const
+export type PriceListType = typeof PriceListType[keyof typeof PriceListType]
 
 export enum ViewType {
   CREATE = "create",

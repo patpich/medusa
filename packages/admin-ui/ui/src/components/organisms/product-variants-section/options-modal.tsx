@@ -1,9 +1,9 @@
-import { Product } from "@medusajs/medusa"
+import { Product, SetRelation } from "@medusajs/client-types"
 import {
   useAdminCreateProductOption,
   useAdminDeleteProductOption,
   useAdminUpdateProductOption,
-} from "medusa-react"
+} from "@medusajs/client-react"
 import { useEffect, useMemo } from "react"
 import { useFieldArray, useForm } from "react-hook-form"
 import useNotification from "../../../hooks/use-notification"
@@ -15,8 +15,10 @@ import InputField from "../../molecules/input"
 import Modal from "../../molecules/modal"
 import { useOptionsContext } from "./options-provider"
 
+type ProductWithRelations = SetRelation<Product, "options">
+
 type Props = {
-  product: Product
+  product: ProductWithRelations
   open: boolean
   onClose: () => void
 }
@@ -129,14 +131,17 @@ const OptionsModal = ({ product, open, onClose }: Props) => {
     })
 
     toDelete.forEach((option) => {
-      del(option.id!, {
-        onError: () => {
-          errors.push(`delete ${option.title}`)
-        },
-        onSuccess: () => {
-          refetch()
-        },
-      })
+      del(
+        { option_id: option.id! },
+        {
+          onError: () => {
+            errors.push(`delete ${option.title}`)
+          },
+          onSuccess: () => {
+            refetch()
+          },
+        }
+      )
     })
 
     if (errors.length === toCreate.length + toUpdate.length + toDelete.length) {
@@ -235,7 +240,7 @@ const OptionsModal = ({ product, open, onClose }: Props) => {
   )
 }
 
-const getDefaultValues = (product: Product) => {
+const getDefaultValues = (product: ProductWithRelations) => {
   return {
     options: product.options.map((option) => ({
       title: option.title,

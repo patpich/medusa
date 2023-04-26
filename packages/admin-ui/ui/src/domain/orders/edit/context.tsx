@@ -1,8 +1,13 @@
 import { createContext, PropsWithChildren, useEffect } from "react"
-import { useAdminOrderEdits } from "medusa-react"
-import { OrderEdit } from "@medusajs/medusa"
+import { useAdminOrderEdits } from "@medusajs/client-react"
+import { OrderEdit, SetRelation } from "@medusajs/client-types"
 
 import useToggleState from "../../../hooks/use-toggle-state"
+
+type OrderEditWithRelations = SetRelation<
+  OrderEdit,
+  "total" | "changes" | "items"
+>
 
 export type IOrderEditContext = {
   showModal: () => void
@@ -13,7 +18,7 @@ export type IOrderEditContext = {
   activeOrderEditId?: string
   setActiveOrderEdit: (orderEditId?: string) => string
 
-  orderEdits?: OrderEdit[]
+  orderEdits?: OrderEditWithRelations[]
 }
 
 let activeId = undefined

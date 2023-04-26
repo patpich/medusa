@@ -1,5 +1,5 @@
-import { AdminPostProductsReq, ProductVariant } from "@medusajs/medusa"
-import { useAdminCreateProduct, useMedusa } from "medusa-react"
+import { AdminPostProductsReq, ProductVariant } from "@medusajs/client-types"
+import { useAdminCreateProduct, useMedusaAdmin } from "@medusajs/client-react"
 import { useForm, useWatch } from "react-hook-form"
 import CustomsForm, {
   CustomsFormType,
@@ -179,7 +179,7 @@ const NewProduct = ({ onClose }: Props) => {
       })
     })
 
-  const { client } = useMedusa()
+  const { client } = useMedusaAdmin()
 
   const createStockLocationsForVariants = async (
     variants: ProductVariant[],
@@ -191,7 +191,7 @@ const NewProduct = ({ onClose }: Props) => {
     await Promise.all(
       variants
         .map(async (variant) => {
-          const optionsKey = variant.options
+          const optionsKey = (variant.options || [])
             .map((option) => option?.value || "")
             .sort()
             .join(",")
@@ -201,14 +201,14 @@ const NewProduct = ({ onClose }: Props) => {
             return
           }
 
-          const inventory = await client.admin.variants.getInventory(variant.id)
+          const inventory = await client.variants.getInventory(variant.id)
 
           return await Promise.all(
             inventory.variant.inventory
               .map(async (item) => {
                 return Promise.all(
                   stock_locations.map(async (stock_location) => {
-                    client.admin.inventoryItems.createLocationLevel(item.id!, {
+                    client.inventoryItems.createLocationLevel(item.id!, {
                       location_id: stock_location.location_id,
                       stocked_quantity: stock_location.stocked_quantity,
                     })

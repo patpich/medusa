@@ -3,9 +3,9 @@ import React, { useMemo } from "react"
 import FeatureToggle from "../../../../components/fundamentals/feature-toggle"
 import ImagePlaceholder from "../../../../components/fundamentals/image-placeholder"
 import InputField from "../../../../components/molecules/input"
-import { LineItem } from "@medusajs/medusa"
+import { LineItem, SetRelation } from "@medusajs/client-types"
 import clsx from "clsx"
-import { useAdminVariantsInventory } from "medusa-react"
+import { useAdminVariantsInventory } from "@medusajs/client-react"
 import { useFeatureFlag } from "../../../../providers/feature-flag-provider"
 
 export const getFulfillableQuantity = (item: LineItem): number => {
@@ -57,6 +57,8 @@ const CreateFulfillmentItemsTable = ({
   )
 }
 
+type LineItemWithRelations = SetRelation<LineItem, "variant">
+
 const FulfillmentLine = ({
   item,
   locationId,
@@ -65,7 +67,7 @@ const FulfillmentLine = ({
   setErrors,
 }: {
   locationId?: string
-  item: LineItem
+  item: LineItemWithRelations
   quantities: Record<string, number>
   handleQuantityUpdate: (value: number, id: string) => void
   setErrors: (errors: Record<string, string>) => void

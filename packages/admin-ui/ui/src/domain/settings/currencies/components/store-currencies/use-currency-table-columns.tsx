@@ -1,4 +1,4 @@
-import { Currency } from "@medusajs/medusa"
+import { Currency } from "@medusajs/client-types"
 import { useMemo } from "react"
 import { Column } from "react-table"
 import SortingIcon from "../../../../../components/fundamentals/icons/sorting-icon"

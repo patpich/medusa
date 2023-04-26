@@ -1,4 +1,4 @@
-import { ProductVariant } from "@medusajs/medusa"
+import { ProductVariant, SetRelation } from "@medusajs/client-types"
 import {
   flexRender,
   getCoreRowModel,
@@ -8,7 +8,7 @@ import Table from "../../molecules/table"
 import { useDenominationColumns } from "./use-denominations-columns"
 
 type DenominationsTableProps = {
-  denominations: ProductVariant[]
+  denominations: SetRelation<ProductVariant, "prices">[]
 }
 
 const DenominationsTable = ({ denominations }: DenominationsTableProps) => {

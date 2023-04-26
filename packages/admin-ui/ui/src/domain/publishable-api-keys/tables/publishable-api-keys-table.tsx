@@ -7,8 +7,8 @@ import {
   useAdminDeletePublishableApiKey,
   useAdminPublishableApiKeys,
   useAdminRevokePublishableApiKey,
-} from "medusa-react"
-import { PublishableApiKey } from "@medusajs/medusa"
+} from "@medusajs/client-react"
+import { PublishableApiKey } from "@medusajs/client-types"
 
 import TableContainer from "../../../components/organisms/table-container"
 import Table from "../../../components/molecules/table"

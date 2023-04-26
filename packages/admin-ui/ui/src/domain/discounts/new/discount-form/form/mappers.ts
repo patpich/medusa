@@ -1,4 +1,4 @@
-import { AdminPostDiscountsReq, AdminUpsertCondition } from "@medusajs/medusa"
+import { AdminPostDiscountsReq } from "@medusajs/client-types"
 import { FieldValues } from "react-hook-form"
 import {
   getSubmittableMetadata,
@@ -30,6 +30,11 @@ export enum DiscountConditionType {
   PRODUCT_COLLECTIONS = "product_collections",
   PRODUCT_TAGS = "product_tags",
   CUSTOMER_GROUPS = "customer_groups",
+}
+
+type AdminUpsertCondition = {
+  id?: string
+  operator: "in" | "not_in"
 }
 
 const mapConditionsToCreate = (map: ConditionMap) => {
@@ -68,9 +73,9 @@ export const formValuesToCreateDiscountMapper = (
       conditions: mapConditionsToCreate(conditions),
     },
     is_dynamic: values.is_dynamic,
-    ends_at: values.ends_at ?? undefined,
+    ends_at: values.ends_at ? values.ends_at.toISOString() : undefined,
     regions: values.regions?.map((r) => r.value) || [],
-    starts_at: values.starts_at,
+    starts_at: values.starts_at?.toISOString(),
     usage_limit:
       values.usage_limit && values.usage_limit > 0
         ? values.usage_limit

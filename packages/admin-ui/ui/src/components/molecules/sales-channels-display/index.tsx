@@ -1,5 +1,5 @@
-import { SalesChannel } from "@medusajs/medusa"
-import { useAdminSalesChannels } from "medusa-react"
+import { SalesChannel } from "@medusajs/client-types"
+import { useAdminSalesChannels } from "@medusajs/client-react"
 import React from "react"
 import Tooltip from "../../atoms/tooltip"
 import Badge from "../../fundamentals/badge"

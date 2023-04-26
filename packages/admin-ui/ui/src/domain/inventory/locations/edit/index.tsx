@@ -3,8 +3,8 @@ import {
   StockLocationAddressDTO,
   StockLocationAddressInput,
   StockLocationDTO,
-} from "@medusajs/medusa"
-import { useAdminUpdateStockLocation } from "medusa-react"
+} from "@medusajs/client-types"
+import { useAdminUpdateStockLocation } from "@medusajs/client-react"
 import { useForm } from "react-hook-form"
 import Button from "../../../../components/fundamentals/button"
 import Modal from "../../../../components/molecules/modal"

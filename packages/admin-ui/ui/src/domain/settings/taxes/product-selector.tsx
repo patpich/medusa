@@ -1,4 +1,4 @@
-import { useAdminProducts } from "medusa-react"
+import { useAdminProducts } from "@medusajs/client-react"
 import { useMemo, useState } from "react"
 import ImagePlaceholder from "../../../components/fundamentals/image-placeholder"
 import { useDebounce } from "../../../hooks/use-debounce"

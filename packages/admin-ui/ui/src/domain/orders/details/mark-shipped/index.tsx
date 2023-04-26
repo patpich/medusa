@@ -1,9 +1,9 @@
-import { Fulfillment } from "@medusajs/medusa"
+import { Fulfillment } from "@medusajs/client-types"
 import {
   useAdminCreateClaimShipment,
   useAdminCreateShipment,
   useAdminCreateSwapShipment,
-} from "medusa-react"
+} from "@medusajs/client-react"
 import React, { useState } from "react"
 import { Controller, useFieldArray, useForm } from "react-hook-form"
 import Button from "../../../../components/fundamentals/button"

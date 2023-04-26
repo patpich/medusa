@@ -1,4 +1,4 @@
-import { Product } from "@medusajs/medusa"
+import { Product } from "@medusajs/client-types"
 import JSONView from "../../molecules/json-view"
 import Section from "../section"
 

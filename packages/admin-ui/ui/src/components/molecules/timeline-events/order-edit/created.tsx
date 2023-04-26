@@ -1,11 +1,11 @@
-import { LineItem, OrderEdit, OrderItemChange } from "@medusajs/medusa"
+import { LineItem, OrderEdit, OrderItemChange } from "@medusajs/client-types"
 import {
   useAdminCancelOrderEdit,
   useAdminConfirmOrderEdit,
   useAdminDeleteOrderEdit,
   useAdminOrderEdit,
   useAdminUser,
-} from "medusa-react"
+} from "@medusajs/client-react"
 import React, { useContext } from "react"
 
 import { OrderEditEvent } from "../../../../hooks/use-build-timeline"

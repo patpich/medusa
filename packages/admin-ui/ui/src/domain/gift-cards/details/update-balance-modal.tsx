@@ -1,5 +1,5 @@
-import { GiftCard } from "@medusajs/medusa"
-import { useAdminUpdateGiftCard } from "medusa-react"
+import { GiftCard, SetRelation } from "@medusajs/client-types"
+import { useAdminUpdateGiftCard } from "@medusajs/client-react"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import GiftCardBalanceForm, {
@@ -11,10 +11,12 @@ import useNotification from "../../../hooks/use-notification"
 import { getErrorMessage } from "../../../utils/error-messages"
 import { nestedForm } from "../../../utils/nested-form"
 
+type GiftCardWithRelations = SetRelation<GiftCard, "region">
+
 type UpdateBalanceModalProps = {
   open: boolean
   onClose: () => void
-  giftCard: GiftCard
+  giftCard: GiftCardWithRelations
 }
 
 type UpdateBalanceModalFormData = {

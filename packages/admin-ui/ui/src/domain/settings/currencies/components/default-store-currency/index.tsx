@@ -1,8 +1,10 @@
-import { Store } from "@medusajs/medusa"
+import { SetRelation, Store } from "@medusajs/client-types"
 import DefaultCurrencySelector from "./default-currency-selector"
 
+type StoreWithRelations = SetRelation<Store, "currencies" | "default_currency">
+
 type Props = {
-  store: Store
+  store: StoreWithRelations
 }
 
 const DefaultStoreCurrency = ({ store }: Props) => {

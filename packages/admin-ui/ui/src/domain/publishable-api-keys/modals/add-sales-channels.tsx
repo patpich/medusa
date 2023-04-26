@@ -1,6 +1,6 @@
 import { useRef, useState } from "react"
-import { useAdminSalesChannels } from "medusa-react"
-import { SalesChannel } from "@medusajs/medusa"
+import { useAdminSalesChannels } from "@medusajs/client-react"
+import { SalesChannel } from "@medusajs/client-types"
 
 import SideModal from "../../../components/molecules/modal/side-modal"
 import Button from "../../../components/fundamentals/button"

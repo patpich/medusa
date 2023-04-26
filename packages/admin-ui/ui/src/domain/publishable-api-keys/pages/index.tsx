@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 
-import { PublishableApiKey, SalesChannel } from "@medusajs/medusa"
+import { PublishableApiKey, SalesChannel } from "@medusajs/client-types"
 import {
   useAdminAddPublishableKeySalesChannelsBatch,
   useAdminCreatePublishableApiKey,
-} from "medusa-react"
+} from "@medusajs/client-react"
 
 import BackButton from "../../../components/atoms/back-button"
 import Fade from "../../../components/atoms/fade-wrapper"

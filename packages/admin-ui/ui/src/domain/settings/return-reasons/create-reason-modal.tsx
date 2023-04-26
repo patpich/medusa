@@ -1,5 +1,5 @@
-import { ReturnReason } from "@medusajs/medusa"
-import { useAdminCreateReturnReason } from "medusa-react"
+import { ReturnReason } from "@medusajs/client-types"
+import { useAdminCreateReturnReason } from "@medusajs/client-react"
 import { useForm } from "react-hook-form"
 import Button from "../../../components/fundamentals/button"
 import Input from "../../../components/molecules/input"

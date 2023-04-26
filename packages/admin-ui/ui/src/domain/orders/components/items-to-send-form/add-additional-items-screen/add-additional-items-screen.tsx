@@ -1,5 +1,4 @@
-import { Order } from "@medusajs/medusa"
-import { PricedVariant } from "@medusajs/medusa/dist/types/pricing"
+import { Order, PricedVariant } from "@medusajs/client-types"
 import {
   getCoreRowModel,
   getPaginationRowModel,
@@ -9,7 +8,7 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table"
-import { useAdminVariants } from "medusa-react"
+import { useAdminVariants } from "@medusajs/client-react"
 import { useMemo, useState } from "react"
 import Button from "../../../../../components/fundamentals/button"
 import Modal from "../../../../../components/molecules/modal"
@@ -78,10 +77,10 @@ const AddAdditionalItemsScreen = ({
   const isRowSelectable = (row: Row<PricedVariant>) => {
     const { currency_code, region_id } = order
 
-    const hasRegionPrice = row.original.prices.some(
+    const hasRegionPrice = (row.original.prices || []).some(
       (p) => p.region_id === region_id
     )
-    const hasCurrencyPrice = row.original.prices.some(
+    const hasCurrencyPrice = (row.original.prices || []).some(
       (p) => p.currency_code === currency_code
     )
 
@@ -136,7 +135,7 @@ const AddAdditionalItemsScreen = ({
     const toAppend: AdditionalItem[] = selectedVariants.map((variant) => ({
       variant_id: variant.id!,
       quantity: 1,
-      sku: variant.sku,
+      sku: variant.sku || undefined,
       product_title: variant.product!.title,
       variant_title: variant.title!,
       thumbnail: variant.product!.thumbnail,

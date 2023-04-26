@@ -1,5 +1,8 @@
-import { Product } from "@medusajs/medusa"
-import { useAdminDeleteProduct, useAdminUpdateProduct } from "medusa-react"
+import { Product } from "@medusajs/client-types"
+import {
+  useAdminDeleteProduct,
+  useAdminUpdateProduct,
+} from "@medusajs/client-react"
 import { useNavigate } from "react-router-dom"
 import useImperativeDialog from "../../../hooks/use-imperative-dialog"
 import useNotification from "../../../hooks/use-notification"

@@ -1,4 +1,4 @@
-import { useAdminGetSession } from "medusa-react"
+import { useAdminGetSession } from "@medusajs/client-react"
 import { ReactNode, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import Spinner from "../atoms/spinner"

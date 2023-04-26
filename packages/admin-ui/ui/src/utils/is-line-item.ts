@@ -1,8 +1,16 @@
-import { ClaimOrder, LineItem, Order, Swap } from "@medusajs/medusa"
+import {
+  ClaimOrder,
+  LineItem,
+  Order,
+  SetRelation,
+  Swap,
+} from "@medusajs/client-types"
+
+type OrderWithRelations = SetRelation<Order, "swaps" | "claims">
 
 export const isLineItemCanceled = (
-  item: Omit<LineItem, "beforeInsert">,
-  order: Omit<Order, "beforeInsert">
+  item: LineItem,
+  order: OrderWithRelations
 ) => {
   const { swap_id, claim_order_id } = item
   const travFind = (col: (Swap | ClaimOrder)[], id: string) =>
@@ -17,7 +25,7 @@ export const isLineItemCanceled = (
   return false
 }
 
-export const isLineItemReturned = (item: Omit<LineItem, "beforeInsert">) => {
+export const isLineItemReturned = (item: LineItem) => {
   const { shipped_quantity, returned_quantity } = item
 
   if (!returned_quantity) {
@@ -30,8 +38,8 @@ export const isLineItemReturned = (item: Omit<LineItem, "beforeInsert">) => {
 }
 
 export const isLineItemNotReturnable = (
-  item: Omit<LineItem, "beforeInsert">,
-  order: Order
+  item: LineItem,
+  order: OrderWithRelations
 ) => {
   return isLineItemCanceled(item, order) || isLineItemReturned(item)
 }

@@ -2,7 +2,7 @@ import {
   useAdminCancelClaim,
   useAdminCancelReturn,
   useAdminOrder,
-} from "medusa-react"
+} from "@medusajs/client-react"
 import { Fragment } from "react"
 import CreateFulfillmentModal from "../../../../domain/orders/details/create-fulfillment"
 import { ReceiveReturnMenu } from "../../../../domain/orders/details/receive-return"
@@ -64,14 +64,21 @@ const Claim = ({ event }: Props) => {
   const { mutate: cancelClaim } = useAdminCancelClaim(event.order?.id)
 
   const onCancelClaim = () => {
-    cancelClaim(event.claim.id, {
-      onSuccess: () => {
-        notification("Claim canceled", "The claim has been canceled", "success")
-      },
-      onError: (err) => {
-        notification("Failed to cancel claim", getErrorMessage(err), "error")
-      },
-    })
+    cancelClaim(
+      { claim_id: event.claim.id },
+      {
+        onSuccess: () => {
+          notification(
+            "Claim canceled",
+            "The claim has been canceled",
+            "success"
+          )
+        },
+        onError: (err) => {
+          notification("Failed to cancel claim", getErrorMessage(err), "error")
+        },
+      }
+    )
   }
 
   const onCancelReturn = () => {

@@ -1,8 +1,8 @@
-import { CustomerGroup } from "@medusajs/medusa"
+import { CustomerGroup } from "@medusajs/client-types"
 import {
   useAdminCreateCustomerGroup,
   useAdminUpdateCustomerGroup,
-} from "medusa-react"
+} from "@medusajs/client-react"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import {

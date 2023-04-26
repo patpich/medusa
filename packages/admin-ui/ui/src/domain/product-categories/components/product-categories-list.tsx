@@ -5,8 +5,11 @@ import Nestable from "react-nestable"
 import "react-nestable/dist/styles/index.css"
 import "../styles/product-categories.css"
 
-import { ProductCategory } from "@medusajs/medusa"
-import { adminProductCategoryKeys, useMedusa } from "medusa-react"
+import { ProductCategory } from "@medusajs/client-types"
+import {
+  adminProductCategoryKeys,
+  useMedusaAdmin,
+} from "@medusajs/client-react"
 
 import { useQueryClient } from "@tanstack/react-query"
 import ReorderIcon from "../../../components/fundamentals/icons/reorder-icon"
@@ -23,7 +26,7 @@ type ProductCategoriesListProps = {
  * Draggable list that renders product categories tree view.
  */
 function ProductCategoriesList(props: ProductCategoriesListProps) {
-  const { client } = useMedusa()
+  const { client } = useMedusaAdmin()
   const queryClient = useQueryClient()
   const notification = useNotification()
   const [isUpdating, enableUpdating, disableUpdating] = useToggleState(false)
@@ -56,7 +59,7 @@ function ProductCategoriesList(props: ProductCategoriesListProps) {
       try {
         disableError()
 
-        await client.admin.productCategories.update(dragItem.id, {
+        await client.productCategories.update(dragItem.id, {
           parent_category_id: parentId,
           rank,
         })

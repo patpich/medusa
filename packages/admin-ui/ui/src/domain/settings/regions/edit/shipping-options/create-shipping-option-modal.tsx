@@ -1,5 +1,5 @@
-import { Region } from "@medusajs/medusa"
-import { useAdminCreateShippingOption } from "medusa-react"
+import { Region } from "@medusajs/client-types"
+import { useAdminCreateShippingOption } from "@medusajs/client-react"
 import { useForm } from "react-hook-form"
 import { getSubmittableMetadata } from "../../../../../components/forms/general/metadata-form"
 import Button from "../../../../../components/fundamentals/button"

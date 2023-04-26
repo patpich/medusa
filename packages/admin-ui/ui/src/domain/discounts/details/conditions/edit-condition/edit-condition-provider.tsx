@@ -1,8 +1,8 @@
-import { Discount, DiscountCondition } from "@medusajs/medusa"
+import { Discount, DiscountCondition } from "@medusajs/client-types"
 import {
   useAdminAddDiscountConditionResourceBatch,
   useAdminDeleteDiscountConditionResourceBatch,
-} from "medusa-react"
+} from "@medusajs/client-react"
 import { createContext, ReactNode, useContext } from "react"
 import { LayeredModalContext } from "../../../../../components/molecules/modal/layered-modal"
 import useNotification from "../../../../../hooks/use-notification"
@@ -38,19 +38,21 @@ export const EditConditionProvider = ({
   const { pop, reset } = useContext(LayeredModalContext)
 
   const addConditionResourceBatch = useAdminAddDiscountConditionResourceBatch(
-    discount.id,
-    condition.id
+    discount.id
   )
 
   const removeConditionResourceBatch =
-    useAdminDeleteDiscountConditionResourceBatch(discount.id, condition.id)
+    useAdminDeleteDiscountConditionResourceBatch(discount.id)
 
   const addConditionResources = (
     resourcesToAdd: string[],
     onSuccessCallback?: () => void
   ) => {
     addConditionResourceBatch.mutate(
-      { resources: resourcesToAdd.map((r) => ({ id: r })) },
+      {
+        condition_id: condition.id,
+        resources: resourcesToAdd.map((r) => ({ id: r })),
+      },
       {
         onSuccess: () => {
           notification(
@@ -68,7 +70,10 @@ export const EditConditionProvider = ({
 
   const removeConditionResources = (resourcesToRemove: string[]) => {
     removeConditionResourceBatch.mutate(
-      { resources: resourcesToRemove.map((r) => ({ id: r })) },
+      {
+        condition_id: condition.id,
+        resources: resourcesToRemove.map((r) => ({ id: r })),
+      },
       {
         onSuccess: () => {
           notification(

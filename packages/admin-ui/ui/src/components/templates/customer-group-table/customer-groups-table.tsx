@@ -1,5 +1,5 @@
-import { CustomerGroup } from "@medusajs/medusa"
-import { useAdminCustomerGroups } from "medusa-react"
+import { CustomerGroup } from "@medusajs/client-types"
+import { useAdminCustomerGroups } from "@medusajs/client-react"
 import { useNavigate } from "react-router-dom"
 import {
   HeaderGroup,

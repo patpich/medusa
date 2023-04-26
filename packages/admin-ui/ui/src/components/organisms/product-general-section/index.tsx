@@ -1,4 +1,4 @@
-import { Product } from "@medusajs/medusa"
+import { Product, SetRelation } from "@medusajs/client-types"
 import useEditProductActions from "../../../hooks/use-edit-product-actions"
 import useToggleState from "../../../hooks/use-toggle-state"
 import {
@@ -17,8 +17,10 @@ import Section from "../section"
 import ChannelsModal from "./channels-modal"
 import GeneralModal from "./general-modal"
 
+type ProductWithRelations = SetRelation<Product, "tags">
+
 type Props = {
-  product: Product
+  product: ProductWithRelations
 }
 
 const ProductGeneralSection = ({ product }: Props) => {
@@ -134,7 +136,7 @@ const ProductDetails = ({ product }: Props) => {
       {isFeatureEnabled(FeatureFlag.PRODUCT_CATEGORIES) && (
         <Detail
           title="Category"
-          value={product.categories.map((c) => c.name)}
+          value={(product.categories || []).map((c) => c.name)}
         />
       )}
       <Detail
